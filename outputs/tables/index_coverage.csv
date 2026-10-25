@@ -1,0 +1,9 @@
+variant,first_valid,warmup_or_missing_rows,missing_operational_rows
+Adaptive,2017-03-31,564,0
+Equal,2016-12-30,502,0
+Entropy,2017-03-31,564,0
+NoEVT,2017-03-31,564,0
+NoHMM,2017-03-31,564,0
+NoGARCH,2017-03-31,564,0
+PCA,2017-07-06,630,0
+Adaptive4,2017-03-31,564,0
