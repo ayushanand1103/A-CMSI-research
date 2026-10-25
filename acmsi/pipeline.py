@@ -91,6 +91,9 @@ def execute(root, output, cfg, refresh=False, download_external=False):
     (output/"run_manifest.json").write_text(json.dumps(manifest,indent=2),encoding="utf-8")
     from .report import write_reports
     write_reports(output,manifest,portfolio,metric)
+    latest = portfolio["Adaptive"].dropna()
+    LOG.info("LATEST A-CMSI PORTFOLIO SCORE: %+.4f | data date: %s after close | saved historical data, no live feed",
+             latest.iloc[-1], latest.index[-1].date())
     LOG.info("Finished. Best held-out volatility RMSE: %s",metric.iloc[0].to_dict())
 
 

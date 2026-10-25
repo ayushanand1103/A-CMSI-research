@@ -2,6 +2,8 @@
 
 Adaptive Composite Market Stress Index for AAPL, MSFT and SPY, using the repository's 2015–2025 adjusted-price data.
 
+Display the single latest saved portfolio score with `python show_score.py`. This displays the Adaptive V/P/T index and its data date; it does not fetch live market prices. The main pipeline also prints this score when a run completes.
+
 ## Run
 
 Use Python 3.11 or newer from this directory:
