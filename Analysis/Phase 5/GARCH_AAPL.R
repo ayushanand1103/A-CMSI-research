@@ -2,7 +2,7 @@ library(rugarch)
 
 # Load ARIMA residuals
 residuals_data <- read.csv(
-  "C:/Time series research paper/Data/arima_residuals.csv"
+  "C:/A-CMSI research/Data/arima_residuals.csv"
 )
 
 # Convert Date column

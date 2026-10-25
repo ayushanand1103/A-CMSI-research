@@ -1,0 +1,8 @@
+.deps/
+__pycache__/
+*.pyc
+outputs/cache/
+outputs/models/
+outputs/run.log
+.venv/
+~$*

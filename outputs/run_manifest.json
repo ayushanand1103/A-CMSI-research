@@ -1,0 +1,47 @@
+{
+  "config": {
+    "seed": 42,
+    "window": 252,
+    "entropy_window": 63,
+    "threshold": 0.9,
+    "min_exceedances": 20,
+    "initial_train": 756,
+    "refit_every": 21,
+    "horizon": 30,
+    "hmm_states": 5,
+    "restarts": 3,
+    "hmm_iter": 200,
+    "min_weight": 0.05,
+    "bootstrap": 1000
+  },
+  "fingerprint": "b872be9752889ef6",
+  "component_fingerprint": "ed8e449862446922",
+  "python": "3.11.6 (tags/v3.11.6:8b6ee5b, Oct  2 2023, 14:57:12) [MSC v.1935 64 bit (AMD64)]",
+  "packages": {
+    "numpy": "2.4.6",
+    "pandas": "3.1.0",
+    "scipy": "1.17.1",
+    "scikit-learn": "1.9.1",
+    "statsmodels": "0.15.0",
+    "arch": "8.0.0",
+    "hmmlearn": "0.3.3",
+    "PyWavelets": "1.9.0"
+  },
+  "price_start": "2015-01-02",
+  "price_end": "2025-12-30",
+  "n_prices": 2765,
+  "n_returns": 2764,
+  "first_oos_model_date": "2018-01-04",
+  "first_scored_forecast": "2018-09-05",
+  "last_scored_forecast": "2025-11-14",
+  "latest_forecast": "2025-12-30",
+  "as_of": "after_market_close",
+  "validation": "monthly_expanding_refits_forward_filtered_HMM",
+  "warmup": "Rows before first_oos_model_date are training reconstructions; never scored",
+  "data_sources": [
+    "Existing Yahoo adjusted-close CSVs",
+    "Existing saved VIX observations"
+  ],
+  "optional_correlation_component": "Adaptive4; core remains V/P/T",
+  "publication": "No external publishing or submission performed"
+}

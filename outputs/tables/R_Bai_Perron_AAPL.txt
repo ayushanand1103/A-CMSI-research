@@ -1,0 +1,65 @@
+
+	 Optimal (m+1)-segment partition: 
+
+Call:
+breakpoints.formula(formula = variance ~ 1, h = 252, breaks = 5, 
+    data = data)
+
+Breakpoints at observation number:
+                                
+m = 1   931                     
+m = 2   1270 1522               
+m = 3   929  1270 1522          
+m = 4   1270 1522      2011 2492
+m = 5   1264 1516 1768 2020 2492
+
+Corresponding to breakdates:
+                                                                               
+m = 1   0.339285714285714                                                      
+m = 2   0.462827988338192 0.55466472303207                                     
+m = 3   0.338556851311953 0.462827988338192 0.55466472303207                   
+m = 4   0.462827988338192 0.55466472303207                    0.732871720116618
+m = 5   0.46064139941691  0.552478134110787 0.644314868804665 0.736151603498542
+                         
+m = 1                    
+m = 2                    
+m = 3                    
+m = 4   0.908163265306122
+m = 5   0.908163265306122
+
+Fit:
+                                                                     
+m   0          1          2          3          4          5         
+RSS  5.235e-04  5.010e-04  4.329e-04  4.280e-04  4.198e-04  4.112e-04
+BIC -3.465e+04 -3.476e+04 -3.514e+04 -3.516e+04 -3.519e+04 -3.524e+04
+
+	 Optimal 6-segment partition: 
+
+Call:
+breakpoints.breakpointsfull(obj = fit)
+
+Breakpoints at observation number:
+1264 1516 1768 2020 2492 
+
+Corresponding to breakdates:
+0.4606414 0.5524781 0.6443149 0.7361516 0.9081633 
+
+RSS: 0.000411232 
+NULL
+
+	 Confidence intervals for breakpoints
+	 of optimal 6-segment partition: 
+
+Call:
+confint.breakpointsfull(object = fit)
+
+Breakpoints at observation number:
+  2.5 % breakpoints 97.5 %
+1  1235        1264   1265
+2    NA        1516     NA
+3  1758        1768   1770
+4  2019        2020   2027
+5    NA        2492     NA
+
+Corresponding to breakdates:
+Confidence interval unavailable: missing value where TRUE/FALSE needed 
