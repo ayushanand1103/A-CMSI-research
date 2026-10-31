@@ -1,0 +1,8 @@
+{
+  "n_forecasts": 1810,
+  "overlapping_target_horizon": 30,
+  "rough_nonoverlapping_windows": 60.333333333333336,
+  "crisis_positive_days": 467,
+  "crisis_positive_episodes": 10,
+  "caution": "These are dependence diagnostics, not an exact inferential sample size"
+}

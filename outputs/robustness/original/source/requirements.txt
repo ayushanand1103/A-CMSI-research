@@ -1,0 +1,11 @@
+numpy>=1.26,<3
+pandas>=2.2,<4
+scipy>=1.11,<2
+scikit-learn>=1.4,<2
+statsmodels>=0.14,<0.16
+arch>=7,<9
+hmmlearn>=0.3.2,<0.4
+PyWavelets>=1.6,<2
+matplotlib>=3.8,<4
+requests>=2.31,<3
+threadpoolctl>=3,<4

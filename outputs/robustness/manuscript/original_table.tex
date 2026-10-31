@@ -1,0 +1,16 @@
+\begin{table}[htbp]\centering\small
+\caption{Original results reproduced from fresh estimation. Annualized volatility uses decimal-return units.}\label{tab:original}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrr}
+\toprule
+Model & Dates & RMSE & MAE & Future-crisis AUC \\
+\midrule
+NoHMM & 1810 & 0.1041 & 0.0564 & 0.6573 \\
+Equal & 1810 & 0.1046 & 0.0568 & 0.6776 \\
+Entropy & 1810 & 0.1048 & 0.0568 & 0.6656 \\
+Adaptive4 & 1810 & 0.1053 & 0.0576 & 0.6611 \\
+PCA & 1810 & 0.1053 & 0.0570 & 0.6843 \\
+Adaptive & 1810 & 0.1053 & 0.0569 & 0.6583 \\
+NoGARCH & 1810 & 0.1058 & 0.0572 & 0.6468 \\
+NoEVT & 1810 & 0.1068 & 0.0597 & 0.5919 \\
+RealizedVolBaseline & 1810 & 0.1227 & 0.0686 & -- \\
+\bottomrule\end{tabular}}\end{table}

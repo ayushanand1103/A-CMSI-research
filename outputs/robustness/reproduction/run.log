@@ -1,0 +1,107 @@
+2026-10-31 14:47:43,183 INFO Loaded 2765 prices and 2764 returns (2015-01-05 00:00:00 to 2025-12-30 00:00:00)
+2026-10-31 14:47:46,959 INFO Selected AAPL ARIMA(0, 0, 0) ('EGARCH', 't') on initial training sample
+2026-10-31 14:47:51,309 INFO Selected MSFT ARIMA(0, 0, 0) ('EGARCH', 't') on initial training sample
+2026-10-31 14:47:53,786 INFO Selected SPY ARIMA(0, 0, 0) ('EGARCH', 't') on initial training sample
+2026-10-31 14:47:53,809 INFO Monthly refit 1: train through 2018-01-03; score 2018-01-04 to 2018-02-02
+2026-10-31 14:47:57,923 INFO Monthly refit 2: train through 2018-02-02; score 2018-02-05 to 2018-03-06
+2026-10-31 14:47:59,516 INFO Monthly refit 3: train through 2018-03-06; score 2018-03-07 to 2018-04-05
+2026-10-31 14:48:01,316 INFO Monthly refit 4: train through 2018-04-05; score 2018-04-06 to 2018-05-04
+2026-10-31 14:48:03,044 INFO Monthly refit 5: train through 2018-05-04; score 2018-05-07 to 2018-06-05
+2026-10-31 14:48:04,971 INFO Monthly refit 6: train through 2018-06-05; score 2018-06-06 to 2018-07-05
+2026-10-31 14:48:06,042 INFO Monthly refit 7: train through 2018-07-05; score 2018-07-06 to 2018-08-03
+2026-10-31 14:48:06,564 INFO Monthly refit 8: train through 2018-08-03; score 2018-08-06 to 2018-09-04
+2026-10-31 14:48:07,091 INFO Monthly refit 9: train through 2018-09-04; score 2018-09-05 to 2018-10-03
+2026-10-31 14:48:07,667 INFO Monthly refit 10: train through 2018-10-03; score 2018-10-04 to 2018-11-01
+2026-10-31 14:48:08,242 INFO Monthly refit 11: train through 2018-11-01; score 2018-11-02 to 2018-12-03
+2026-10-31 14:48:08,776 INFO Monthly refit 12: train through 2018-12-03; score 2018-12-04 to 2019-01-04
+2026-10-31 14:48:09,378 INFO Monthly refit 13: train through 2019-01-04; score 2019-01-07 to 2019-02-05
+2026-10-31 14:48:09,864 INFO Monthly refit 14: train through 2019-02-05; score 2019-02-06 to 2019-03-07
+2026-10-31 14:48:10,331 INFO Monthly refit 15: train through 2019-03-07; score 2019-03-08 to 2019-04-05
+2026-10-31 14:48:10,859 INFO Monthly refit 16: train through 2019-04-05; score 2019-04-08 to 2019-05-07
+2026-10-31 14:48:11,451 INFO Monthly refit 17: train through 2019-05-07; score 2019-05-08 to 2019-06-06
+2026-10-31 14:48:12,044 INFO Monthly refit 18: train through 2019-06-06; score 2019-06-07 to 2019-07-08
+2026-10-31 14:48:12,795 INFO Monthly refit 19: train through 2019-07-08; score 2019-07-09 to 2019-08-06
+2026-10-31 14:48:13,568 INFO Monthly refit 20: train through 2019-08-06; score 2019-08-07 to 2019-09-05
+2026-10-31 14:48:14,181 INFO Monthly refit 21: train through 2019-09-05; score 2019-09-06 to 2019-10-04
+2026-10-31 14:48:14,777 INFO Monthly refit 22: train through 2019-10-04; score 2019-10-07 to 2019-11-04
+2026-10-31 14:48:15,416 INFO Monthly refit 23: train through 2019-11-04; score 2019-11-05 to 2019-12-04
+2026-10-31 14:48:16,086 INFO Monthly refit 24: train through 2019-12-04; score 2019-12-05 to 2020-01-06
+2026-10-31 14:48:16,753 INFO Monthly refit 25: train through 2020-01-06; score 2020-01-07 to 2020-02-05
+2026-10-31 14:48:17,407 INFO Monthly refit 26: train through 2020-02-05; score 2020-02-06 to 2020-03-06
+2026-10-31 14:48:18,209 INFO Monthly refit 27: train through 2020-03-06; score 2020-03-09 to 2020-04-06
+2026-10-31 14:48:18,978 INFO Monthly refit 28: train through 2020-04-06; score 2020-04-07 to 2020-05-06
+2026-10-31 14:48:19,648 INFO Monthly refit 29: train through 2020-05-06; score 2020-05-07 to 2020-06-05
+2026-10-31 14:48:20,430 INFO Monthly refit 30: train through 2020-06-05; score 2020-06-08 to 2020-07-07
+2026-10-31 14:48:21,247 INFO Monthly refit 31: train through 2020-07-07; score 2020-07-08 to 2020-08-05
+2026-10-31 14:48:22,043 INFO Monthly refit 32: train through 2020-08-05; score 2020-08-06 to 2020-09-03
+2026-10-31 14:48:22,811 INFO Monthly refit 33: train through 2020-09-03; score 2020-09-04 to 2020-10-05
+2026-10-31 14:48:23,561 INFO Monthly refit 34: train through 2020-10-05; score 2020-10-06 to 2020-11-03
+2026-10-31 14:48:24,434 INFO Monthly refit 35: train through 2020-11-03; score 2020-11-04 to 2020-12-03
+2026-10-31 14:48:25,217 INFO Monthly refit 36: train through 2020-12-03; score 2020-12-04 to 2021-01-05
+2026-10-31 14:48:26,110 INFO Monthly refit 37: train through 2021-01-05; score 2021-01-06 to 2021-02-04
+2026-10-31 14:48:26,985 INFO Monthly refit 38: train through 2021-02-04; score 2021-02-05 to 2021-03-08
+2026-10-31 14:48:27,730 INFO Monthly refit 39: train through 2021-03-08; score 2021-03-09 to 2021-04-07
+2026-10-31 14:48:28,560 INFO Monthly refit 40: train through 2021-04-07; score 2021-04-08 to 2021-05-06
+2026-10-31 14:48:29,403 INFO Monthly refit 41: train through 2021-05-06; score 2021-05-07 to 2021-06-07
+2026-10-31 14:48:30,237 INFO Monthly refit 42: train through 2021-06-07; score 2021-06-08 to 2021-07-07
+2026-10-31 14:48:31,080 INFO Monthly refit 43: train through 2021-07-07; score 2021-07-08 to 2021-08-05
+2026-10-31 14:48:31,897 INFO Monthly refit 44: train through 2021-08-05; score 2021-08-06 to 2021-09-03
+2026-10-31 14:48:32,686 INFO Monthly refit 45: train through 2021-09-03; score 2021-09-07 to 2021-10-05
+2026-10-31 14:48:33,638 INFO Monthly refit 46: train through 2021-10-05; score 2021-10-06 to 2021-11-03
+2026-10-31 14:48:34,620 INFO Monthly refit 47: train through 2021-11-03; score 2021-11-04 to 2021-12-03
+2026-10-31 14:48:35,506 INFO Monthly refit 48: train through 2021-12-03; score 2021-12-06 to 2022-01-04
+2026-10-31 14:48:36,465 INFO Monthly refit 49: train through 2022-01-04; score 2022-01-05 to 2022-02-03
+2026-10-31 14:48:37,495 INFO Monthly refit 50: train through 2022-02-03; score 2022-02-04 to 2022-03-07
+2026-10-31 14:48:38,508 INFO Monthly refit 51: train through 2022-03-07; score 2022-03-08 to 2022-04-05
+2026-10-31 14:48:39,532 INFO Monthly refit 52: train through 2022-04-05; score 2022-04-06 to 2022-05-05
+2026-10-31 14:48:40,628 INFO Monthly refit 53: train through 2022-05-05; score 2022-05-06 to 2022-06-06
+2026-10-31 14:48:41,869 INFO Monthly refit 54: train through 2022-06-06; score 2022-06-07 to 2022-07-07
+2026-10-31 14:48:42,917 INFO Monthly refit 55: train through 2022-07-07; score 2022-07-08 to 2022-08-05
+2026-10-31 14:48:43,900 INFO Monthly refit 56: train through 2022-08-05; score 2022-08-08 to 2022-09-06
+2026-10-31 14:48:44,982 INFO Monthly refit 57: train through 2022-09-06; score 2022-09-07 to 2022-10-05
+2026-10-31 14:48:46,051 INFO Monthly refit 58: train through 2022-10-05; score 2022-10-06 to 2022-11-03
+2026-10-31 14:48:47,115 INFO Monthly refit 59: train through 2022-11-03; score 2022-11-04 to 2022-12-05
+2026-10-31 14:48:48,130 INFO Monthly refit 60: train through 2022-12-05; score 2022-12-06 to 2023-01-05
+2026-10-31 14:48:49,420 INFO Monthly refit 61: train through 2023-01-05; score 2023-01-06 to 2023-02-06
+2026-10-31 14:48:50,399 INFO Monthly refit 62: train through 2023-02-06; score 2023-02-07 to 2023-03-08
+2026-10-31 14:48:51,533 INFO Monthly refit 63: train through 2023-03-08; score 2023-03-09 to 2023-04-06
+2026-10-31 14:48:52,702 INFO Monthly refit 64: train through 2023-04-06; score 2023-04-10 to 2023-05-08
+2026-10-31 14:48:53,778 INFO Monthly refit 65: train through 2023-05-08; score 2023-05-09 to 2023-06-07
+2026-10-31 14:48:54,917 INFO Monthly refit 66: train through 2023-06-07; score 2023-06-08 to 2023-07-10
+2026-10-31 14:48:56,223 INFO Monthly refit 67: train through 2023-07-10; score 2023-07-11 to 2023-08-08
+2026-10-31 14:48:57,523 INFO Monthly refit 68: train through 2023-08-08; score 2023-08-09 to 2023-09-07
+2026-10-31 14:48:58,732 INFO Monthly refit 69: train through 2023-09-07; score 2023-09-08 to 2023-10-06
+2026-10-31 14:48:59,788 INFO Monthly refit 70: train through 2023-10-06; score 2023-10-09 to 2023-11-06
+2026-10-31 14:49:00,950 INFO Monthly refit 71: train through 2023-11-06; score 2023-11-07 to 2023-12-06
+2026-10-31 14:49:02,233 INFO Monthly refit 72: train through 2023-12-06; score 2023-12-07 to 2024-01-08
+2026-10-31 14:49:03,324 INFO Monthly refit 73: train through 2024-01-08; score 2024-01-09 to 2024-02-07
+2026-10-31 14:49:04,622 INFO Monthly refit 74: train through 2024-02-07; score 2024-02-08 to 2024-03-08
+2026-10-31 14:49:05,700 INFO Monthly refit 75: train through 2024-03-08; score 2024-03-11 to 2024-04-09
+2026-10-31 14:49:07,084 INFO Monthly refit 76: train through 2024-04-09; score 2024-04-10 to 2024-05-08
+2026-10-31 14:49:08,350 INFO Monthly refit 77: train through 2024-05-08; score 2024-05-09 to 2024-06-07
+2026-10-31 14:49:09,775 INFO Monthly refit 78: train through 2024-06-07; score 2024-06-10 to 2024-07-10
+2026-10-31 14:49:11,170 INFO Monthly refit 79: train through 2024-07-10; score 2024-07-11 to 2024-08-08
+2026-10-31 14:49:12,624 INFO Monthly refit 80: train through 2024-08-08; score 2024-08-09 to 2024-09-09
+2026-10-31 14:49:14,005 INFO Monthly refit 81: train through 2024-09-09; score 2024-09-10 to 2024-10-08
+2026-10-31 14:49:15,363 INFO Monthly refit 82: train through 2024-10-08; score 2024-10-09 to 2024-11-06
+2026-10-31 14:49:19,904 INFO Monthly refit 83: train through 2024-11-06; score 2024-11-07 to 2024-12-06
+2026-10-31 14:49:25,761 INFO Monthly refit 84: train through 2024-12-06; score 2024-12-09 to 2025-01-08
+2026-10-31 14:49:31,488 INFO Monthly refit 85: train through 2025-01-08; score 2025-01-10 to 2025-02-10
+2026-10-31 14:49:36,976 INFO Monthly refit 86: train through 2025-02-10; score 2025-02-11 to 2025-03-12
+2026-10-31 14:49:43,727 INFO Monthly refit 87: train through 2025-03-12; score 2025-03-13 to 2025-04-10
+2026-10-31 14:49:50,166 INFO Monthly refit 88: train through 2025-04-10; score 2025-04-11 to 2025-05-12
+2026-10-31 14:49:56,349 INFO Monthly refit 89: train through 2025-05-12; score 2025-05-13 to 2025-06-11
+2026-10-31 14:50:05,591 INFO Monthly refit 90: train through 2025-06-11; score 2025-06-12 to 2025-07-14
+2026-10-31 14:50:12,058 INFO Monthly refit 91: train through 2025-07-14; score 2025-07-15 to 2025-08-12
+2026-10-31 14:50:17,715 INFO Monthly refit 92: train through 2025-08-12; score 2025-08-13 to 2025-09-11
+2026-10-31 14:50:24,807 INFO Monthly refit 93: train through 2025-09-11; score 2025-09-12 to 2025-10-10
+2026-10-31 14:50:31,322 INFO Monthly refit 94: train through 2025-10-10; score 2025-10-13 to 2025-11-10
+2026-10-31 14:50:37,644 INFO Monthly refit 95: train through 2025-11-10; score 2025-11-11 to 2025-12-10
+2026-10-31 14:50:43,722 INFO Monthly refit 96: train through 2025-12-10; score 2025-12-11 to 2025-12-30
+2026-10-31 14:50:51,169 INFO Rolling EVT: AAPL
+2026-10-31 14:51:15,971 INFO Rolling EVT: MSFT
+2026-10-31 14:52:41,064 INFO Rolling EVT: SPY
+2026-10-31 14:53:22,791 INFO Calibrating walk-forward forecasts and comparing ablations
+2026-10-31 14:55:20,482 INFO Producing diagnostics, wavelets and figures
+2026-10-31 14:55:38,717 INFO LATEST A-CMSI PORTFOLIO SCORE: -0.4924 | data date: 2025-12-30 after close | saved historical data, no live feed
+2026-10-31 14:55:38,718 INFO Finished. Best held-out volatility RMSE: {'variant': 'NoHMM', 'n': 1810, 'rmse': 0.10410749642185702, 'mae': 0.056377601318036825, 'directional_accuracy': 0.6784530386740332, 'crisis_auc': 0.6572648087234786, 'crisis_brier': 0.18470685986518942, 'crisis_f1_at_0.5': 0.2852664576802508, 'transition_auc': 0.4189017705783945, 'transition_brier': 0.2300347626791949, 'transition_f1_at_0.5': 0.8064622485987472}

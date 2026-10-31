@@ -1,0 +1,509 @@
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+Does Adaptive Weighting Improve Equity
+Market Stress Measurement? Evidence from
+a GARCH–HMM–EVT Composite Index
+Ayush Anand
+Undergraduate Student, CHRIST (Deemed to be University),
+Delhi NCR Campus, India
+Corresponding author: ayushanand.1103@gmail.com
+Independent empirical research working paper | Version 2 (mathematical notation revision), 27 October 2026
+Abstract
+This paper investigates whether combining conditional volatility, filtered market-regime probabilities, and extreme-
+loss severity through regime-conditioned entropy weights improves equity-market stress measurement. An Adaptive
+Composite Market Stress Index (A-CMSI) is constructed for AAPL, MSFT, and SPY from ARIMA–conditional-
+varianceestimates,forward-filteredfive-stateGaussianhiddenMarkovprobabilities,androllingpeaks-over-threshold
+generalized Pareto expected shortfall. An optional specification adds cross-asset correlation. A chronological
+expanding-window design uses 2,765 adjusted-price observations from 2015 through 2025, monthly model refits,
+and mature-label forecast calibration. Across 1,810 held-out 30-day volatility forecasts, Adaptive yields RMSE
+0.10532, compared with 0.10457 for equal weighting and 0.10411 for the NoHMM ablation. The Adaptive–Equal
+Diebold–Mariano test does not reject equal predictive accuracy (𝑝 = 0.217). Adaptive achieves a future 30-day
+crisis ROC AUC of 0.658 and an after-close same-day crisis-detection F1 of 0.300 at an expanding 90th-percentile
+signal threshold; these are distinct evaluation tasks. Rolling EVT and wavelet diagnostics characterize tails and
+timescale dependence, while external-index comparisons remain exploratory because revised observations and
+assumed publication lags are used. The findings support a reproducible stress-measurement framework but do not
+establish that adaptive weighting outperforms simpler composites.
+Keywords:equity-marketstress;compositeindicator;GARCH;hiddenMarkovmodel;peaksoverthreshold;expected
+shortfall; entropy weighting; walk-forward forecasting.
+JEL Classification:C58, G01, C53, G17.
+Declaration of generative-AI assistance.OpenAI ChatGPT was used to assist with literature discovery, manuscript drafting,
+editorial organization, and document formatting. The underlying research code and experimental outputs were supplied by the
+author. The author is responsible for independently checking all claims, references, results, and interpretation before submission.
+No AI system is listed as an author.
+1. Introduction
+A composite financial stress index seeks to summarize changing market conditions in a small number of interpretable
+quantities. Neitherdailyreturnsnorconditionalvolatilityalonecompletelycharacterizetheseverityofadversemarket
+episodes: two days with comparable estimated volatility may have different downside tail risks, and transient negative
+returns do not necessarily signal a persistent crisis regime. The problem is especially important when an index is
+evaluated as a potential early-warning signal rather than a historical description of episodes already observed.
+Composite financial-stress measurement has substantial precedent. The ECB Composite Indicator of Systemic Stress
+(CISS) aggregates market-specific measures through an explicitly correlation-sensitive construction [1]. More recent
+work, including FIMSIS for Slovenia, compares alternative aggregation and risk-assessment methods [2]. These
+studies motivate transparent benchmark comparisons and caution against assuming that additional model complexity
+improves detection or prediction.
+ThepresentstudyevaluatesanAdaptiveCompositeMarketStressIndex(A-CMSI)forarestrictedU.S.equityuniverse
+comprising Apple (AAPL), Microsoft (MSFT), and the SPDR S&P 500 ETF Trust (SPY). The core index combines
+three separately estimated components: a conditional-volatility signal𝑉, a filtered adverse-regime probability𝑃, and
+anextreme-lossexpected-shortfallsignal 𝑇. TrailingShannonentropydeterminesbaselineactivityweights, whichare
+altered by predefined multipliers depending on the expected HMM risk rank. A four-component variant additionally
+incorporates mean rolling pairwise correlations𝐶.
+The main empirical question is not whether GARCH, HMM, or EVT methods are individually new, or whether an
+index can visually highlight the COVID-19 crash. Rather, it asks whether an adaptive combination yields useful
+Independent empirical research working paper 1/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+incremental information relative to equal weights, PCA weighting, entropy-only weighting, and ablations in which
+particular components are removed. In-sample visual correspondence, after-close crisis detection, and strictly
+prospective forecasts are kept conceptually separate.
+2. Related literature and contribution
+2.1 Conditional risk, regime switching, and extreme tails
+Time-varying conditional variance is rooted in ARCH and GARCH modeling [3, 4], with asymmetric extensions
+such as EGARCH designed to accommodate leverage-type effects [5]. Latent-state approaches to economic time
+series offer a probabilistic description of changing regimes [6]. In market-risk applications these models may capture
+different aspects of stress, but latent-state posterior probabilities must be handled cautiously when used in historical
+backtests: a smoothed probability conditions on future observations and differs from the information available at the
+historical close.
+Tail-riskestimationusingpeaksoverthresholddrawsonextreme-orderasymptotics[7]. McNeilandFrey[8]combine
+GARCH filtering with extreme-value estimates for conditional VaR and expected shortfall. Salhi et al. [9] explicitly
+combine HMM and EVT in a regime-switching VaR model. Consequently, the pairing of HMM and EVT is an
+established research direction; the distinction investigated here lies in using them as separable, normalized inputs to a
+dated composite index with a regime-conditioned weighting mechanism.
+2.2 Stress-index aggregation and testable contribution
+Entropyisaninformation-theoreticfunctional[10],butusingnormalizedentropydirectlyasaweightisnotequivalent
+to the conventional entropy-deficit weighting1 − 𝐻. Here, higher temporal entropy receives greater baseline weight,
+which favors indicators showing more distributed absolute activity across the trailing window rather than isolated
+spikes. This is a declared operational design choice, not an inherently optimal principle. PCA and equal-weight
+comparators are retained to determine whether the intended adaptivity adds value.
+The contribution is therefore a reproducible implementation and chronological comparison of a specific𝑉–𝑃–𝑇 index
+rather than a new theorem. The study makes three distinctions explicit: (i) multiple stress dimensions are estimated
+separately; (ii) regime-dependent weight changes use only forward-filtered probabilities in held-out periods; and (iii)
+component ablations and paired comparisons are allowed to favor a simpler composite.
+3. Data and preliminary analysis
+The dataset comprises 2,765 dated adjusted-closing-price rows for AAPL, MSFT, and SPY, from 2 January 2015
+through 30 December 2025. Daily log differences produce 2,764 returns. The canonical input is the dated merged file
+Data/prices_clean.csvintheprojectrepository; undatedhistoricalexportsarenotusedforcross-assetalignment.
+VIX observations are retained from the project’s previously saved HMM feature data and are not backfilled into dates
+before availability.
+For asset𝑎 and trading date𝑡, define adjusted closing price𝑆𝑎,𝑡, log return𝑟𝑎,𝑡, and downside loss𝐿 𝑎,𝑡 as
+𝑟𝑎,𝑡 = ln
+ 𝑆𝑎,𝑡
+𝑆𝑎,𝑡 −1
+
+, 𝐿 𝑎,𝑡 = −𝑟𝑎,𝑡 , 𝑎 ∈ A = {AAPL, MSFT, SPY}. (1)
+Preliminarydescriptiveoutputsincluderollingreturnmoments,21-dayrealizedvariance,63-daypairwisecorrelations,
+priceandreturnfigures,ADFandKPSStests,log-priceJohansencointegrationtests[11],conditionalerror-correction
+regressions where admissible, and structural-break diagnostics. These are contextual analyses rather than features
+assumed to improve the predictive index. A separate LOESS reconstruction is descriptive only and is excluded from
+forecasting.
+This is an equity-focused rather than a system-wide financial-stability dataset. AAPL and MSFT are constituents of
+SPY, creating economically overlapping exposures. Accordingly, the mean of the three asset indices cannot be treated
+as independent cross-market diversification, and broad claims about banking, funding, or sovereign-debt stress would
+exceed the evidence.
+Independent empirical research working paper 2/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+Notation used throughout
+Table 1:Core mathematical notation. Asset, component, and hidden-state indices are deliberately distinguished.
+Symbol Meaning
+𝑎 ∈ A, 𝑡 Asset (|A | = 3) and after-close trading-date index.
+𝑐 ∈ C, 𝑑 Stress component𝑐 ∈ { 𝑉, 𝑃, 𝑇 }, with𝑑 = 3for the main model and𝑑 = 4 for Adaptive4.
+𝑠, 𝑗 ∈ { 1, . . . , 𝑀 } HMM hidden-state indices;𝑀 = 5 in the baseline, distinct from𝑑.
+𝑆𝑎,𝑡 , 𝑟𝑎,𝑡 , 𝐿 𝑎,𝑡 Adjusted closing price, log return, and downside loss of asset𝑎.
+b𝜎𝑎,𝑡 Model-implied conditional standard deviation from the ARIMA–variance stage.
+𝜋𝑡 (𝑠), 𝜌𝑠 Forward-filtered probability of state𝑠 and that state’s training-derived risk rank in[0, 1].
+𝑃𝑡, 𝑔𝑡 Probability of the highest-risk state and posterior expected risk rank, respectively.
+𝑢𝑎,𝑡 , 𝜉𝑎,𝑡 , 𝛽𝑎,𝑡 Rolling EVT threshold, GPD shape, and GPD scale.
+𝑍𝑐,𝑎,𝑡 Clipped trailing-normalized component value;𝑍𝑃,𝑎,𝑡 is the same across assets.
+𝐻𝑐,𝑎,𝑡 , 𝑒𝑐,𝑎,𝑡 Normalized temporal entropy and direct-entropy baseline weight.
+𝑚𝑐 (𝑔𝑡 ), 𝑤 𝑐,𝑎,𝑡 Regime multiplier and final floored simplex weight.
+𝑊, ℓ, 𝜆, ℎ Entropy lookback 𝑊 = 63; normalization/EVT lookbackℓ = 252; weight floor𝜆 = 0.05;
+forecast horizonℎ = 30.
+4. Methods
+4.1 Conditional variance and standardized volatility
+The conditional mean is modeled by ARIMA( 𝑝, 0, 𝑞), where𝑝, 𝑞 ∈ { 0, 1, 2}. BIC selects candidate specifications on
+the initial training sample. To display the conditional-variance input unambiguously, a generic ARMA representation
+of the differenced-free return model is
+𝑟𝑎,𝑡 = 𝜇𝑎 +
+𝑝∑︁
+𝑖=1
+𝜙𝑎,𝑖 𝑟𝑎,𝑡 −𝑖 + 𝜀𝑎,𝑡 +
+𝑞∑︁
+𝑗=1
+𝜃𝑎, 𝑗 𝜀𝑎,𝑡 − 𝑗 , 𝜀 𝑎,𝑡 = 𝜎𝑎,𝑡 𝑧𝑎,𝑡 , E[𝑧𝑎,𝑡 ] = 0, Var(𝑧𝑎,𝑡 ) = 1. (2)
+A standard GARCH(1, 1) reference specification is
+𝜎2
+𝑎,𝑡 = 𝜔𝑎 + 𝛼𝑎𝜀2
+𝑎,𝑡 −1 + 𝛽𝑎𝜎2
+𝑎,𝑡 −1. (3)
+Equations(2)–(3)identify the mean–variance decomposition;(3)isnot a claim that plain GARCH was selected for
+every asset. The implementation compares GARCH, GJR-GARCH, and EGARCH candidate variance equations with
+Gaussian or Student-𝑡 standardized innovations, and selects among them using initial-sample BIC and convergence.
+The chosen models are re-estimated at 21-trading-day intervals on expanding samples, with parameters held fixed
+during each following block. Conditional volatility is updated as observed returns become available.
+The operational volatility feature is a trailing,after-closez-score. For any scalar series𝑥𝑡, write ¯𝑥ℓ,𝑡 and 𝑠𝑥,ℓ,𝑡 for its
+sample mean and standard deviation over dates𝑡 − ℓ + 1, . . . , 𝑡 (including 𝑡). Then
+𝑍𝑉 ,𝑎,𝑡 = clip
+b𝜎𝑎,𝑡 − ¯𝜎𝑎,ℓ,𝑡
+𝑠 𝜎,𝑎,ℓ,𝑡
+, −3, 3
+
+, ℓ = 252. (4)
+The normalizations are unavailable until sufficient trailing history exists. Historical R notebooks fitted specific
+asset-level candidates; the canonical Python pipeline performs its own chronological specification selection and
+exports operational𝑉. The legacy precomputed normalized series is not renormalized in the principal experiment.
+4.2 Forward-filtered hidden Markov component
+A full-covariance Gaussian hidden Markov model uses SPY returns, conditional volatility, rolling realized volatility,
+rolling skewness, SPY drawdown, volatility of volatility, VIX, and mean pairwise rolling correlation. Feature scaling
+and model estimation are performed using only preceding observations. The baseline uses𝑀 = 5 hidden states and
+three deterministic-seed likelihood restarts per refit; two- through six-state choices were inspected on initial training
+data rather than chosen from held-out performance.
+Let x𝑡 denote the multivariate HMM feature vector,𝐴 𝑗𝑠 = Pr(𝑄𝑡 = 𝑠 | 𝑄𝑡 −1 = 𝑗) the fitted transition probabilities,
+Independent empirical research working paper 3/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+and 𝑓𝑠 (x𝑡 ) the fitted Gaussian emission density in state𝑠. Theforward-filtered, normalized recursion is
+𝜋𝑡 (𝑠) =
+𝑓𝑠 (x𝑡 ) Í𝑀
+𝑗=1 𝜋𝑡 −1( 𝑗) 𝐴 𝑗𝑠
+𝑀∑︁
+𝑘=1
+𝑓𝑘 (x𝑡 )
+𝑀∑︁
+𝑗=1
+𝜋𝑡 −1( 𝑗) 𝐴 𝑗 𝑘
+, 𝑠 = 1, . . . , 𝑀. (5)
+The initial distribution is the fitted start probability (or the propagated final training posterior at a new fitted block).
+Crucially,(5)conditions on observations through𝑡 and does not use backward-smoothed, future-informed posteriors.
+States are relabeled at each refit by atraining-sampleranking using volatility, VIX, and returns. Define𝑠★ as the
+highest-risk state and𝜌𝑠 ∈ [ 0, 1] as its ordered risk score, with the highest ranked state receiving𝜌𝑠★ = 1. Then
+𝑃𝑡 = 𝜋𝑡 (𝑠★), 𝑔 𝑡 =
+𝑀∑︁
+𝑠=1
+𝜌𝑠𝜋𝑡 (𝑠), 𝑍 𝑃,𝑎,𝑡 = clip
+ 𝑃𝑡 − ¯𝑃ℓ,𝑡
+𝑠𝑃,ℓ,𝑡
+, −3, 3
+
+. (6)
+𝑃𝑡 is a common SPY-centered market regime signal in all three asset composites; it is not an independent HMM
+estimated for each individual asset.
+4.3 Peaks-over-threshold expected shortfall
+Negative log returns𝐿 𝑎,𝑡 define downside losses. Within each trailingℓ = 252-day window, the empirical 90th
+percentile of losses sets a threshold𝑢𝑎,𝑡. Positive exceedances𝑌 = 𝐿 − 𝑢 conditional on 𝐿 > 𝑢 are fitted by a
+generalized Pareto distribution with shape𝜉𝑎,𝑡 and scale𝛽𝑎,𝑡 > 0, provided at least 20 exceedances exist. Its survival
+function is
+Pr(𝑌 > 𝑦 | 𝐿 > 𝑢 ) =
+
+1 + 𝜉 𝑦
+𝛽
+ −1/ 𝜉
+, 𝑦 ≥ 0, 1 + 𝜉 𝑦
+𝛽 > 0. (7)
+Here and in the next two equations,(𝑢, 𝜉, 𝛽 ) are the fitted parameters for the asset and rolling date. Let𝑝𝑢 = 𝑛𝑢/ℓ be
+the empirical fraction of losses exceeding𝑢. For a tail confidence level𝛼 with 1 − 𝛼 ≤ 𝑝𝑢, POT extrapolation gives
+VaR𝛼 = 𝑢 + 𝛽
+𝜉
+ 𝑝𝑢
+1 − 𝛼
+ 𝜉
+− 1
+
+, 𝜉 ≠ 0, (8)
+ES𝛼 = VaR𝛼 +𝛽 − 𝜉𝑢
+1 − 𝜉 , 𝜉 < 1. (9)
+At 𝜉 → 0 the quantile limit isVaR𝛼 = 𝑢 + 𝛽 ln[ 𝑝𝑢/(1 − 𝛼)]. The operational tail component is the clipped trailing
+z-score of rollingES0.99:
+𝑍𝑇 ,𝑎,𝑡 = clip©­
+«
+cES0.99,𝑎,𝑡 − cES𝑎,ℓ,𝑡
+𝑠cES,𝑎,ℓ,𝑡
+, −3, 3ª®
+¬
+. (10)
+Invalid fits or cases with𝜉 ≥ 1 use a recordedempirical ES99 fallback instead of arbitrary shape clipping. A
+full-sample static comparison of 90th-, 95th-, and 99th-percentile thresholds, plus mean-excess and Q–Q diagnostics,
+supports descriptive assessment; none of these retrospective diagnostic fits are used to score held-out dates.
+4.4 Direct entropy weights and regime adjustment
+Raw 𝑉, 𝑃, and𝑇 signals are brought onto comparable scales via the clipped trailing z-scores above. For each asset𝑎
+and component𝑐, temporal proportions within a moving window of length𝑊 = 63 are based onabsolutenormalized
+activity:
+𝑝𝑐,𝑎,𝑘 |𝑡 = |𝑍𝑐,𝑎,𝑘 |
+𝑡∑︁
+𝑗=𝑡 −𝑊+1
+|𝑍𝑐,𝑎, 𝑗 |
+, 𝑘 = 𝑡 − 𝑊 + 1, . . . , 𝑡. (11)
+For a nonzero denominator, define0 ln 0 := 0 and the normalized Shannon entropy
+𝐻𝑐,𝑎,𝑡 = − 1
+ln 𝑊
+𝑡∑︁
+𝑘=𝑡 −𝑊+1
+𝑝𝑐,𝑎,𝑘 |𝑡 ln 𝑝𝑐,𝑎,𝑘 |𝑡 , 𝑒 𝑐,𝑎,𝑡 = 𝐻𝑐,𝑎,𝑡Í
+𝑗 ∈ C 𝐻 𝑗,𝑎,𝑡
+. (12)
+This is intentionallydirect entropy𝐻, not entropy-deficit1 − 𝐻. Consistent with the implementation, a component
+with a completely zero activity window has𝐻 = 0; whenallavailable component entropies are zero, baseline weights
+Independent empirical research working paper 4/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+are assigned uniformly. If the component index set isC = {𝑉, 𝑃, 𝑇 }, the posterior expected risk rank𝑔𝑡 determines
+the documented linear endpoint multipliers:
+𝑚𝑉 (𝑔𝑡 ) = 1.3 − 0.5𝑔𝑡 , 𝑚 𝑃 (𝑔𝑡 ) = 0.8 + 0.3𝑔𝑡 , 𝑚 𝑇 (𝑔𝑡 ) = 0.9 + 0.5𝑔𝑡 , 0 ≤ 𝑔𝑡 ≤ 1. (13)
+Therisk-regimecoefficientsaremodelinghypotheses,notempiricallyoptimizedmultipliers. Let 𝑞𝑐,𝑎,𝑡 = 𝑒𝑐,𝑎,𝑡 𝑚𝑐 (𝑔𝑡 ).
+The final weights apply anaffine simplex floor𝜆 = 0.05:
+𝑤 𝑐,𝑎,𝑡 = 𝜆 + (1 − 𝑑𝜆) 𝑞𝑐,𝑎,𝑡∑︁
+𝑗 ∈ C
+𝑞 𝑗,𝑎,𝑡
+,
+∑︁
+𝑐∈ C
+𝑤 𝑐,𝑎,𝑡 = 1, 𝑤 𝑐,𝑎,𝑡 ≥ 𝜆. (14)
+This map is applied when all needed features and weights are defined, with𝑑 = |C|. Asset-level and portfolio
+composite indices are then
+A-CMSI𝑎,𝑡 =
+∑︁
+𝑐∈ C
+𝑤 𝑐,𝑎,𝑡 𝑍𝑐,𝑎,𝑡 , A-CMSIportfolio,𝑡 = 1
+|A |
+∑︁
+𝑎∈ A
+A-CMSI𝑎,𝑡 . (15)
+The three-component index is primary.Adaptive4adds the normalized 21-day mean of the three pairwise return
+correlations, 𝑍𝐶,𝑡, with𝑚𝐶 (𝑔𝑡 ) = 1and 𝑑 = 4. High mean correlation indicates synchronous movement but does not,
+without conditioning on signs, establish joint downside returns or cointegration breakdown.
+4.5 Benchmarks and multiscale description
+ThecomparisonsareEqual,PCA,Entropy-only,NoEVT,NoHMM,NoGARCH,andAdaptive4. PCAusesnormalized
+absoluteleading-componentloadingsfittedonlyonearlierobservations. NoEVTremovesthetailcomponent;NoHMM
+removes both the HMM panic probability and its regime multiplier; and NoGARCH substitutes rolling realized
+volatility for fitted conditional volatility. The Entropy-only model still applies the documented minimum-weight
+mapping but without regime multipliers. The benchmark methods use their own eligible component counts rather
+than treating omitted components as zero.
+Wavelet and smoothed coherence diagnostics are computed using Morlet continuous wavelets [12], with edge regions
+masked. These are descriptive and include no wavelet statistical-significance claim.
+5. Chronological design and outcome definitions
+Table 2:Core experiment settings recorded in the saved run manifest.
+Parameter Setting
+Price sample 2015-01-02 to 2025-12-30; 2,765 rows
+Initial model training 756 trading days
+Model refitting Every 21 trading days
+EVT lookback / threshold 252 days / 90th percentile
+Minimum GPD excesses 20
+Core HMM states 5; full-covariance Gaussian
+Entropy lookback / weight floor 63 days / 0.05
+Future-risk horizon 30 trading days
+Scored forecast dates 2018-09-05 to 2025-11-14
+Paired block bootstrap 1,000 repetitions
+At each eligible after-close date, index values use observations through that date and models estimated on strictly
+earlier dates. Each index variant is calibrated using standardized expanding ridge regression to the logarithm of
+the next 30-day annualized realized volatility. Letℎ = 30 and let𝑠(·) denote the sample standard deviation with
+denominator ℎ − 1; the SPY forward-volatility target is
+𝑌 vol
+𝑡 =
+√
+252 𝑠 𝑟SPY,𝑡 +1, . . . , 𝑟SPY,𝑡 +ℎ
+, ℎ = 30. (16)
+Aridgepredictorisfittedto ln 𝑌 vol
+𝑡 usingmaturetraininglabels,withpredictionsexponentiatedtoreturntoannualized-
+volatility units. Logistic calibration separately estimates (i) the probability of crisis occurrence in the next 30 days
+Independent empirical research working paper 5/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+and (ii) the probability of a model-derived regime-rank transition. At least 126 matured out-of-sample examples are
+required for calibration, and overlapping label windows must be fully observable before entering the training set.
+The same-day after-close stress indicator marks an SPY return below−3% or a trailing 20-day simple price return
+below −10%:
+𝑌 crisis
+𝑡 = 1
+
+𝑟SPY,𝑡 < −0.03 ∨ 𝑆SPY,𝑡
+𝑆SPY,𝑡 −20
+− 1 < −0.10
+
+. (17)
+Expanding historical 75th-, 90th-, and 95th-percentile index thresholds produce after-close detection signals;
+thresholds are computed usingprecedingindex observations. Early-warning events mark first crossings of the−10%
+trailing-return criterion with a 20-day refractory separation. Warning windows are 5, 10, and 20 trading days before
+event dates, excluding the event day. Contemporaneous detection is not interpreted as forecasting the same day’s loss.
+The future-volatility task uses RMSE, MAE, and direction-of-change accuracy. In particular, for held-out scored
+observations 𝑡 = 1, . . . , 𝑛, define
+RMSE =
+vt
+1
+𝑛
+𝑛∑︁
+𝑡=1
+(𝑌 vol
+𝑡 − b𝑌 vol
+𝑡 )2, MAE = 1
+𝑛
+𝑛∑︁
+𝑡=1
+|𝑌 vol
+𝑡 − b𝑌 vol
+𝑡 |. (18)
+Future-eventdiscriminationusesROCAUC,Brierscore,andF1atastatedprobabilitycutoff. Forecast-lossdifferences
+are assessed by the Diebold–Mariano (DM) test [13] using a Bartlett/HAC long-run-variance estimate with 29 lags
+and the small-sample correction of Harvey, Leybourne, and Newbold [14]. For Adaptive and benchmark squared
+forecast errors, the signed differential is𝑑𝑡 = 𝑒2
+𝐴,𝑡 − 𝑒2
+𝐵,𝑡; the reported two-sided statistic is of the form
+DMHLN =
+¯𝑑√︃
+bΩ𝑑/𝑛
+√︂
+𝑛 + 1 − 2ℎ + ℎ(ℎ − 1)/𝑛
+𝑛 , ℎ = 30, (19)
+where bΩ𝑑 is the Bartlett-weighted HAC long-run variance through lagℎ − 1. Paired 30-day circular-block bootstrap
+assesses RMSE differences with 1,000 replications. The resulting𝑝-values are exploratory and not adjusted for
+multiple comparisons.
+6. Empirical results
+6.1 Volatility forecasting and component ablation
+Table 3:Held-out index-variant comparison on common eligible forecast dates,𝑛 = 1,810. Lower RMSE/MAE and higher
+direction accuracy/crisis ROC AUC are better.
+Index RMSE ↓ MAE↓ Direction↑ Crisis AUC↑
+NoHMM 0.10411 0.05638 0.6785 0.6573
+Equal 0.10457 0.05681 0.6646 0.6776
+Entropy 0.10478 0.05677 0.6696 0.6656
+Adaptive4 0.10527 0.05762 0.6663 0.6611
+PCA 0.10528 0.05703 0.6729 0.6843
+Adaptive 0.10532 0.05692 0.6646 0.6583
+NoGARCH 0.10578 0.05720 0.6519 0.6468
+NoEVT 0.10678 0.05974 0.6696 0.5919
+Independent empirical research working paper 6/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+Figure 1:Comparative held-out RMSE of eight index variants. Axis is zoomed to show small differences. Reproduced from the
+repository’smain_ablation_metrics.csv; original empirical figure retained.
+NoHMM obtains the lowest annualized-volatility RMSE (0.10411), while Adaptive yields 0.10532 and Equal yields
+0.10457. The model complexity of Adaptive is therefore not rewarded by lower squared forecast error in this study.
+Nonetheless, removal of EVT raises RMSE to 0.10678, and NoEVT also has a lower future-crisis ROC AUC of
+0.5919 than Adaptive’s 0.6583. These differences are not sufficient by themselves to establish causal or statistically
+significant contributions of the corresponding components.
+6.2 Significance and stability of the weighting mechanism
+Table 4:Exploratory paired forecast comparisons of Adaptive against selected baselines. Positive RMSE improvement means
+Adaptive performs better.
+Comparator DM stat. 𝑝-value RMSE improvement 95% bootstrap interval
+Equal 1.2351 0.2169 −0.00076 [−0.00152, 0.00034]
+NoHMM 0.9525 0.3410 −0.00122 [−0.00377, 0.00120]
+NoEVT −0.8694 0.3847 +0.00146 [−0.00165, 0.00574]
+NoGARCH −1.3427 0.1795 +0.00046 [−0.00018, 0.00121]
+No reported interval in Table 4 excludes zero. The Adaptive–Equal DM test yields𝑝 = 0.217, so the data do not
+support a claim of superior volatility predictive accuracy from adaptive weighting. Sensitivity analysis with entropy
+lookbacks of 21, 63, and 126 trading days reports Adaptive RMSE approximately 0.1055, 0.1053, and 0.1053,
+respectively. The limited variation applies to the examined window choice only, not to state count, multipliers, asset
+composition, or crisis definitions.
+6.3 Extreme-value and multiscale diagnostics
+Table 5:Descriptive full-sample fitted GPD shape parameterb𝜉 by asset and loss threshold quantile.
+Asset 90th percentile 95th percentile 99th percentile
+AAPL 0.107 0.121 0.105
+MSFT 0.100 0.201 0.244
+SPY 0.184 0.232 0.304
+Independent empirical research working paper 7/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+Figure 2: Fitted GPD shape estimates at selecteddescriptive thresholds. At the 99th-percentile threshold only 28 sample
+exceedances remain per asset; these are not precise tail constants. Original empirical figure retained.
+Positive estimated shape parameters are consistent with heavier right tails for downside losses under the fitted
+model. AAPL is comparatively stable over the three static thresholds; estimates for MSFT and SPY vary more. The
+operational 252-day rolling 90th-percentile POT approach usually provides roughly 25 exceedances, introducing
+nontrivial estimation uncertainty in extrapolated 99% Expected Shortfall. One of 7,539 rolling tail fits required an
+empirical fallback, which was explicitly logged.
+6.4 Crisis detection and early warnings
+Table 6:Adaptive same-day crisis detectionafter close, 𝑛 = 2,008. These are not same-day forecasts.
+Index threshold Precision Recall F1
+75th percentile 0.0932 0.8596 0.1681
+90th percentile 0.1967 0.6316 0.3000
+95th percentile 0.3158 0.5263 0.3947
+The selected expanding 90th-percentile decision rule yields after-close detection F1 of 0.300. Changing to the 95th
+percentileimprovesprecisionandF1attheexpenseofrecall. Suchthresholdresultsarecontemporaneousassessments
+formed after observing the day’s market return; they do not constitute an out-of-sample prediction of that same return.
+For separately calibrated 30-day future crises, Adaptive ROC AUC is 0.658, while PCA reaches 0.684 and Equal
+reaches 0.678 in the reported sample.
+Table 7:Pre-event last threshold crossings, conditional on event coverage.
+Event date Last crossing Lead (trading days)
+2018-12-24 2018-12-17 5
+2020-03-06 2020-02-25 8
+2022-05-09 Not observed —
+2022-09-23 2022-09-14 7
+2025-04-04 2025-03-11 18
+Four of five eligible episodes have a preceding threshold crossing within the defined 60-trading-day search interval.
+The median across those four observed leads is 7.5 trading days; the fifth event does not count as a successful warning.
+With only five eligible episodes and possible false alarms outside the event windows, these figures remain exploratory.
+6.5 External benchmark comparison
+The optional comparison uses Federal Reserve Financial Stress Index series STLFSI4 and KCFSI with assumed
+observation-release delays of 7 and 45 calendar days, respectively. On the matched external comparison sample,
+an external-only forecasting model has RMSE 0.11556 and a model augmented with A-CMSI has RMSE 0.11065.
+Independent empirical research working paper 8/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+These figures are not directly ranked against Table 3 because the eligible sample differs. Moreover, the inputs are
+revised published histories rather than vintage-correct historical releases. The comparison is descriptive incremental
+evidence, not point-in-time proof of tradable foresight.
+7. Interpretation and limitations
+The main negative result is informative: a regime-conditioned entropy mechanism can deliver a plausible and visually
+interpretable stress index without improving the primary held-out volatility-loss metric. One possible explanation
+is redundant statistical information among conditional volatility, filtered panic probability, and expected shortfall.
+Another is that economics-inspired regime multipliers overfit the conceptual importance of an indicator without
+aligning with the chosen predictive loss. The present experiment does not identify the mechanism uniquely; it
+demonstrates that additional adaptivity must be empirically justified.
+Several methodological qualifications delimit the interpretation. First, the risk universe is restricted to two large
+technology stocks and a broad U.S. equity ETF containing those stocks. Second, a 252-day 90th-percentile GPD
+window is sparse for stable far-tail estimation. Third, the five-state HMM and bull/panic multipliers are analyst
+choices whose sensitivity was not fully explored. Fourth, scores are operationally after-close and cannot establish
+intraday reaction or same-day prevention.
+Fifth, future realized-volatility targets overlap, reducing the effective number of independent forecast observations.
+HAC and block bootstrap procedures mitigate some serial-dependence concerns but do not resolve uncertainty
+from exploratory comparison selection. Sixth, daily adjusted-price histories and external financial-stress series
+may incorporate revisions unavailable at the time. Seventh, wavelet coherence is interpreted without formal Monte
+Carlo significance contours. Eighth, the regime-transition target is a model-derived proxy rather than independently
+observed financial-crisis ground truth.
+A natural extension would compare direct-entropy weights𝐻 with entropy-deficit weights1 − 𝐻, expand to non-
+overlapping asset groups and credit/funding indicators, evaluate alternative EVT windows and thresholds, obtain
+point-in-time external benchmark vintages, and replicate in new periods. Such work could show whether adaptive
+weighting has localized downturn benefits even when average volatility RMSE is unchanged.
+8. Conclusion
+A-CMSI provides a transparent, reproducible, after-close composite equity-market stress measurement experiment by
+integratingforward-operationalconditionalvolatility, filteredlatent-regimeprobabilities, androllingEVTtailseverity.
+Dynamic entropy weights and regime multipliers are tested against simpler aggregation and component-ablation
+alternatives under chronological forecast calibration. For 1,810 scored held-out forecasts, Adaptive has RMSE
+0.10532 compared with 0.10457 for Equal and 0.10411 for NoHMM; its difference from Equal is not statistically
+significant in the reported test. A-CMSI retains exploratory value as a multidimensional stress summary, but the
+evidence does not support a universal forecasting advantage. Broader replication and more demanding tail-risk and
+point-in-time assessments should precede operational decision claims.
+Statements and reproducibility
+Code and data availability.The reproducible implementation, saved derived outputs, figures, and run manifest
+are available athttps://github.com/ayushanand1103/A-CMSI-research. The primary command ispython
+run_acmsi.py. Adjusted-price inputs and external stress series are third-party data subject to their original terms.
+Funding. This research was conducted independently and received no external funding or institutional financial
+support.
+Competing interests.The author declares no financial, commercial, or personal competing interests.
+Author responsibility. This is a sole-authored, independently conducted project, not undertaken on behalf of
+a university or other institution. The author is responsible for verifying the manuscript, external sources, data
+provenance, and disclosures before any submission. Version 2 revises presentation and adds explicit mathematical
+definitions; numerical results reported here are carried forward from the original preprint without recomputation.
+Independent empirical research working paper 9/10
+A-CMSI | Research preprint | 27 October 2026 Mathematical notation revision
+References
+[1] Holló, D., Kremer, M., andLo Duca, M.(2012). CISS—A compositeindicator ofsystemic stress inthefinancial
+system. ECB Working PaperNo. 1426. https://doi.org/10.2139/ssrn.2018792
+[2] Drenkovska, M., and Lenarčič, Č. (2025). Financial markets stress indicator for Slovenia (FIMSIS). SSRN
+working paper.https://doi.org/10.2139/ssrn.5381229
+[3] Engle, R. F. (1982). Autoregressive conditional heteroscedasticity with estimates of the variance of United
+Kingdom inflation.Econometrica, 50(4), 987–1007.https://doi.org/10.2307/1912773
+[4] Bollerslev, T. (1986). Generalized autoregressive conditional heteroskedasticity.Journal of Econometrics, 31(3),
+307–327.https://doi.org/10.1016/0304-4076(86)90063-1
+[5] Nelson, D. B. (1991). Conditional heteroskedasticity in asset returns: A new approach.Econometrica, 59(2),
+347–370.https://doi.org/10.2307/2938260
+[6] Hamilton, J. D. (1989). A new approach to the economic analysis of nonstationary time series and the business
+cycle. Econometrica, 57(2), 357–384.https://doi.org/10.2307/1912559
+[7] Pickands, J. III. (1975). Statistical inference using extreme order statistics.The Annals of Statistics, 3(1),
+119–131.https://www.jstor.org/stable/2958083
+[8] McNeil, A. J., and Frey, R. (2000). Estimation of tail-related risk measures for heteroscedastic financial time
+series: An extreme value approach.Journal of Empirical Finance, 7(3–4), 271–300.https://doi.org/10.
+1016/S0927-5398(00)00012-8
+[9] Salhi, K., Deaconu, M., Lejay, A., Champagnat, N., and Navet, N. (2016). Regime switching model for financial
+data: Empirical risk analysis.Physica A, 461, 148–157.https://doi.org/10.1016/j.physa.2016.05.
+002
+[10] Shannon, C. E. (1948). A mathematical theory of communication.Bell System Technical Journal, 27(3),
+379–423.https://doi.org/10.1002/j.1538-7305.1948.tb01338.x
+[11] Johansen, S. (1988). Statistical analysis of cointegration vectors.Journal of Economic Dynamics and Control,
+12(2–3), 231–254.https://doi.org/10.1016/0165-1889(88)90041-3
+[12] Torrence, C., and Compo, G. P. (1998). A practical guide to wavelet analysis.Bulletin of the Ameri-
+can Meteorological Society, 79(1), 61–78.https://doi.org/10.1175/1520-0477(1998)079%3C0061:
+APGTWA%3E2.0.CO;2
+[13] Diebold, F. X., and Mariano, R. S. (1995). Comparing predictive accuracy.Journal of Business & Economic
+Statistics, 13(3), 253–263.https://doi.org/10.1080/07350015.1995.10524599
+[14] Harvey, D., Leybourne, S., and Newbold, P. (1997). Testing the equality of prediction mean squared
+errors. InternationalJournalofForecasting ,13(2),281–291. https://doi.org/10.1016/S0169-2070(96)
+00719-4
+Independent empirical research working paper 10/10

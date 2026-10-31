@@ -1,0 +1,2 @@
+candidate,reference,n_monthly_blocks,test_log_density_improvement_per_day,ci_low,ci_high,training_log_density_improvement_per_day,bootstrap_monthly_block_length,bootstrap_draws,interpretation
+HMM6,HMM5,96,-2.089601288743375,-7.600778871311216,1.3747097295346755,0.3543134471681763,3,1000,exploratory_conditional_density_generalization_not_volatility_loss

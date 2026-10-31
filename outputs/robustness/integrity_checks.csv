@@ -1,0 +1,16 @@
+check,passed,max_absolute_error
+fresh reproduction,True,
+independent five-state HMM reproduction,True,2.963640444164639e-11
+independent calibration reproduction,True,0.0
+mature label boundary: ablation_calibration_audit.csv,True,
+mature label boundary: ablation_universal_calibration_audit.csv,True,
+mature label boundary: evt_calibration_audit.csv,True,
+mature label boundary: evt_universal_calibration_audit.csv,True,
+mature label boundary: hmm_calibration_audit.csv,True,
+mature label boundary: hmm_universal_calibration_audit.csv,True,
+mature label boundary: weighting_calibration_audit.csv,True,
+mature label boundary: weighting_universal_calibration_audit.csv,True,
+HMM 3 training boundary and simplex,True,
+HMM 4 training boundary and simplex,True,
+HMM 5 training boundary and simplex,True,
+HMM 6 training boundary and simplex,True,

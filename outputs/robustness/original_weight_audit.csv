@@ -1,0 +1,13 @@
+asset,kind,minimum,nonnegative,max_sum_error,below_005_cells,constraint
+AAPL,adaptive,0.05,True,2.220446049250313e-16,0,base entropy and original PCA do not impose a floor; corrected variants are separate
+AAPL,entropy,0.0,True,2.220446049250313e-16,200,base entropy and original PCA do not impose a floor; corrected variants are separate
+AAPL,pca,0.04636743537356805,True,2.220446049250313e-16,42,base entropy and original PCA do not impose a floor; corrected variants are separate
+AAPL,adaptive4,0.05,True,2.220446049250313e-16,0,base entropy and original PCA do not impose a floor; corrected variants are separate
+MSFT,adaptive,0.05,True,3.3306690738754696e-16,0,base entropy and original PCA do not impose a floor; corrected variants are separate
+MSFT,entropy,0.0,True,2.220446049250313e-16,200,base entropy and original PCA do not impose a floor; corrected variants are separate
+MSFT,pca,0.00943204294501695,True,2.220446049250313e-16,105,base entropy and original PCA do not impose a floor; corrected variants are separate
+MSFT,adaptive4,0.05,True,4.440892098500626e-16,0,base entropy and original PCA do not impose a floor; corrected variants are separate
+SPY,adaptive,0.05,True,2.220446049250313e-16,0,base entropy and original PCA do not impose a floor; corrected variants are separate
+SPY,entropy,0.0,True,2.220446049250313e-16,200,base entropy and original PCA do not impose a floor; corrected variants are separate
+SPY,pca,0.0052672356122220165,True,2.220446049250313e-16,210,base entropy and original PCA do not impose a floor; corrected variants are separate
+SPY,adaptive4,0.05,True,4.440892098500626e-16,0,base entropy and original PCA do not impose a floor; corrected variants are separate

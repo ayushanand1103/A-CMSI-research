@@ -1,0 +1,7 @@
+{
+  "states": 3,
+  "folds": 96,
+  "restarts": 3,
+  "signature": "e695619fffca1eeb87b4d5afc030f25c632f817b59aeff81928ce569e1a76ce6",
+  "metadata_upgrade": "Resume signature added after reproduction and unchanged-algorithm verification"
+}

@@ -1,0 +1,41 @@
+test_acmsi (unittest.loader._FailedTest.test_acmsi) ... ERROR
+test_robustness (unittest.loader._FailedTest.test_robustness) ... ERROR
+
+======================================================================
+ERROR: test_acmsi (unittest.loader._FailedTest.test_acmsi)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_acmsi
+Traceback (most recent call last):
+  File "C:\Users\Ayush\AppData\Local\Programs\Python\Python311\Lib\unittest\loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ayush\AppData\Local\Programs\Python\Python311\Lib\unittest\loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "C:\A-CMSI research\outputs\robustness\clean_environment_workspace\tests\test_acmsi.py", line 8, in <module>
+    import pandas as pd
+ModuleNotFoundError: No module named 'pandas'
+
+
+======================================================================
+ERROR: test_robustness (unittest.loader._FailedTest.test_robustness)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_robustness
+Traceback (most recent call last):
+  File "C:\Users\Ayush\AppData\Local\Programs\Python\Python311\Lib\unittest\loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ayush\AppData\Local\Programs\Python\Python311\Lib\unittest\loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "C:\A-CMSI research\outputs\robustness\clean_environment_workspace\tests\test_robustness.py", line 7, in <module>
+    import pandas as pd
+ModuleNotFoundError: No module named 'pandas'
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+FAILED (errors=2)
+
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+ModuleNotFoundError: No module named 'pandas'

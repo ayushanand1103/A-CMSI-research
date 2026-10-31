@@ -1,0 +1,42 @@
+{
+  "base": {
+    "seed": 42,
+    "window": 252,
+    "entropy_window": 63,
+    "threshold": 0.9,
+    "min_exceedances": 20,
+    "initial_train": 756,
+    "refit_every": 21,
+    "horizon": 30,
+    "hmm_states": 5,
+    "restarts": 3,
+    "hmm_iter": 200,
+    "min_weight": 0.05,
+    "bootstrap": 1000
+  },
+  "states": [
+    3,
+    4,
+    5,
+    6
+  ],
+  "evt_windows": [
+    252,
+    378,
+    504
+  ],
+  "evt_quantiles": [
+    0.9,
+    0.95,
+    0.975
+  ],
+  "bootstrap_blocks": [
+    30,
+    60
+  ],
+  "bootstrap_draws": 1000,
+  "forecast_probability_cutoff": 0.5,
+  "primary_minimum_exceedances": 20,
+  "claims": "retrospective_robustness_no_test_period_tuning",
+  "zenodo_doi": "10.5281/zenodo.23682477"
+}

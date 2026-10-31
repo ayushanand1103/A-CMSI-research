@@ -1,0 +1,40 @@
+test_calibration_label_embargo (test_acmsi.NumericalTests.test_calibration_label_embargo) ... ok
+test_dm_loss_direction (test_acmsi.NumericalTests.test_dm_loss_direction) ... ok
+test_entropy_zero_and_missing (test_acmsi.NumericalTests.test_entropy_zero_and_missing) ... ok
+test_forward_filter_matches_prefix_and_chunk (test_acmsi.NumericalTests.test_forward_filter_matches_prefix_and_chunk) ... ok
+test_forward_target_alignment (test_acmsi.NumericalTests.test_forward_target_alignment) ... ok
+test_gpd_formula_and_finite_mean (test_acmsi.NumericalTests.test_gpd_formula_and_finite_mean) ... ok
+test_index_prefix_invariance (test_acmsi.NumericalTests.test_index_prefix_invariance) ... ok
+test_weight_simplex_and_floor (test_acmsi.NumericalTests.test_weight_simplex_and_floor) ... ok
+test_zscore_does_not_use_future (test_acmsi.NumericalTests.test_zscore_does_not_use_future) ... ok
+test_auc_and_metrics_with_ties (test_robustness.RobustnessTests.test_auc_and_metrics_with_ties) ... ok
+test_calibration_future_target_mutation (test_robustness.RobustnessTests.test_calibration_future_target_mutation) ... ok
+test_deficit_and_direct_entropy_distinct (test_robustness.RobustnessTests.test_deficit_and_direct_entropy_distinct) ... ok
+test_deficit_prefix_invariance (test_robustness.RobustnessTests.test_deficit_prefix_invariance) ... ok
+test_experiment_signature_tracks_inputs_and_config (test_robustness.RobustnessTests.test_experiment_signature_tracks_inputs_and_config) ... ok
+test_global_holm_not_less_than_raw (test_robustness.RobustnessTests.test_global_holm_not_less_than_raw) ... ok
+test_paired_blocks_preserve_order_within_block (test_robustness.RobustnessTests.test_paired_blocks_preserve_order_within_block) ... ok
+test_volatility_prefix_invariance_fixed_training (test_robustness.RobustnessTests.test_volatility_prefix_invariance_fixed_training) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 7.648s
+
+OK
+
+{
+  "tests_run": 17,
+  "passed": true,
+  "packages_from_isolated_venv": true,
+  "package_locations": {
+    "numpy": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "pandas": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "scipy": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "scikit-learn": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "statsmodels": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "arch": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "hmmlearn": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages"
+  },
+  "calibration_reproduced": true,
+  "max_forecast_difference": 0.0,
+  "no_project_deps_directory": true
+}

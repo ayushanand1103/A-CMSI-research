@@ -1,0 +1,12 @@
+artifact,check,passed,max_absolute_error
+tables/main_ablation_metrics.csv,variant,True,
+tables/main_ablation_metrics.csv,n,True,0.0
+tables/main_ablation_metrics.csv,rmse,True,0.0
+tables/main_ablation_metrics.csv,mae,True,0.0
+tables/main_ablation_metrics.csv,directional_accuracy,True,0.0
+tables/main_ablation_metrics.csv,crisis_auc,True,0.0
+tables/main_ablation_metrics.csv,crisis_brier,True,0.0
+tables/main_ablation_metrics.csv,crisis_f1_at_0.5,True,0.0
+tables/main_ablation_metrics.csv,transition_auc,True,0.0
+tables/main_ablation_metrics.csv,transition_brier,True,0.0
+tables/main_ablation_metrics.csv,transition_f1_at_0.5,True,0.0

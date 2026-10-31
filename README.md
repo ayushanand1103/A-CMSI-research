@@ -1,5 +1,9 @@
 # A-CMSI research
 
+The executed statistical robustness revision and manuscript source/PDF are documented in [outputs/robustness/README.md](outputs/robustness/README.md). Original outputs remain separate from the new experiments.
+
+The executed statistical robustness revision and manuscript source/PDF are documented in [outputs/robustness/README.md](outputs/robustness/README.md). Original outputs remain separate from the new experiments.
+
 Adaptive Composite Market Stress Index for AAPL, MSFT and SPY, using the repository's 2015–2025 adjusted-price data.
 
 Display the single latest saved portfolio score with `python show_score.py`. This displays the Adaptive V/P/T index and its data date; it does not fetch live market prices. The main pipeline also prints this score when a run completes.

@@ -1,0 +1,17 @@
+{
+  "tests_run": 17,
+  "passed": true,
+  "packages_from_isolated_venv": true,
+  "package_locations": {
+    "numpy": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "pandas": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "scipy": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "scikit-learn": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "statsmodels": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "arch": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages",
+    "hmmlearn": "C:\\A-CMSI research\\.venv-reproduction\\Lib\\site-packages"
+  },
+  "calibration_reproduced": true,
+  "max_forecast_difference": 0.0,
+  "no_project_deps_directory": true
+}

@@ -5,4 +5,7 @@ outputs/cache/
 outputs/models/
 outputs/run.log
 .venv/
+.venv-robustness/
+.venv-reproduction/
+.venv-robustness-clean/
 ~$*
