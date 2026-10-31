@@ -1,0 +1,17 @@
+\begin{table}[htbp]\centering\small
+\caption{Future 30-day crisis prediction, fixed probability cutoff 0.5. These are not same-day detection scores.}\label{tab:crisis}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrrrr}
+\toprule
+Model & Precision & Recall & F1 & AUC & 95\% AUC CI & Brier \\
+\midrule
+Adaptive & 0.2653 & 0.0835 & 0.1270 & 0.6583 & [0.5257, 0.7803] & 0.1869 \\
+Entropy & 0.2313 & 0.0792 & 0.1180 & 0.6656 & [0.5367, 0.7814] & 0.1858 \\
+EntropyDeficit & 0.3295 & 0.1242 & 0.1804 & 0.6421 & [0.5122, 0.7613] & 0.1941 \\
+Equal & 0.4111 & 0.1585 & 0.2287 & 0.6776 & [0.5421, 0.7977] & 0.1842 \\
+NoEVT & 0.0672 & 0.0171 & 0.0273 & 0.5919 & [0.4691, 0.7111] & 0.1982 \\
+NoGARCH & 0.1534 & 0.0535 & 0.0794 & 0.6468 & [0.5201, 0.7708] & 0.1906 \\
+NoHMM & 0.5322 & 0.1949 & 0.2853 & 0.6573 & [0.5126, 0.7911] & 0.1847 \\
+NoProbability & 0.4903 & 0.1627 & 0.2444 & 0.6527 & [0.5118, 0.7869] & 0.1869 \\
+PCA & 0.5181 & 0.1842 & 0.2717 & 0.6843 & [0.5575, 0.8059] & 0.1799 \\
+PCAFloor & 0.5298 & 0.1906 & 0.2803 & 0.6836 & [0.5560, 0.8024] & 0.1800 \\
+\bottomrule\end{tabular}}\end{table}

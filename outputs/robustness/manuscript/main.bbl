@@ -1,4 +1,4 @@
-\begin{thebibliography}{14}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -54,12 +54,26 @@ D{\'a}niel Holl{\'o}, Manfred Kremer, and Marco Lo~Duca.
 \newblock Technical Report 1426, European Central Bank, 2012.
 \newblock URL \url{https://www.ecb.europa.eu/pub/pdf/scpwps/ecbwp1426.pdf}.
 
+\bibitem[Holm(1979)]{holm}
+Sture Holm.
+\newblock A simple sequentially rejective multiple test procedure.
+\newblock \emph{Scandinavian Journal of Statistics}, 6\penalty0 (2):\penalty0
+  65--70, 1979.
+\newblock URL \url{https://www.jstor.org/stable/4615733}.
+
 \bibitem[Johansen(1988)]{johansen}
 S{\o}ren Johansen.
 \newblock Statistical analysis of cointegration vectors.
 \newblock \emph{Journal of Economic Dynamics and Control}, 12\penalty0
   (2--3):\penalty0 231--254, 1988.
 \newblock \doi{10.1016/0165-1889(88)90041-3}.
+
+\bibitem[K{\"u}nsch(1989)]{kunsch}
+Hans~R. K{\"u}nsch.
+\newblock The jackknife and the bootstrap for general stationary observations.
+\newblock \emph{The Annals of Statistics}, 17\penalty0 (3):\penalty0
+  1217--1241, 1989.
+\newblock \doi{10.1214/aos/1176347265}.
 
 \bibitem[McNeil and Frey(2000)]{mcneil}
 Alexander~J. McNeil and R{\"u}diger Frey.
@@ -76,10 +90,11 @@ Daniel~B. Nelson.
 \newblock \doi{10.2307/2938260}.
 
 \bibitem[Pickands(1975)]{pickands}
-James~III Pickands.
+James Pickands, III.
 \newblock Statistical inference using extreme order statistics.
 \newblock \emph{The Annals of Statistics}, 3\penalty0 (1):\penalty0 119--131,
   1975.
+\newblock \doi{10.1214/aos/1176343003}.
 \newblock URL \url{https://www.jstor.org/stable/2958083}.
 
 \bibitem[Salhi et~al.(2016)Salhi, Deaconu, Lejay, Champagnat, and Navet]{salhi}

@@ -83,7 +83,7 @@
     "ACMSI_Submission_Readiness_Audit.md": "unavailable_in_checked_locations"
   },
   "environment": "Dedicated venv with recorded existing project dependencies; lock supports clean installation",
-  "completed_utc": "2026-10-31T09:54:45.422674+00:00",
+  "completed_utc": "2026-10-31T10:15:13.204190+00:00",
   "final_source_sha256": {
     "acmsi\\analysis.py": "3344d508fb76cd658caff5fc70ad1608118367ceeb9f7671b5f8f72b14542973",
     "acmsi\\core.py": "4281f213980ff798318e6fea7e8c4003ba2c937c25eaabd99ed9c20d73e23230",
@@ -98,11 +98,12 @@
     "research_audit\\clean_environment_check.py": "6425ec9ddbd7e69eed1da18304c13c3357dec9908db6516d0e206e4714af50f4",
     "research_audit\\evaluate.py": "2302559cea83eba7b63ccd9c45b59b355f27cc64f8d42f7f866f7a3b357cccdd",
     "research_audit\\evt.py": "92e95de216ed5812588a7460bc5587de9c15003d8a255e688e2c3d62d08bd683",
+    "research_audit\\final_review.py": "1127ec26dabe685354b732f93e5ce17fedc3dc7e35e26d67fd128cadf20f34e4",
     "research_audit\\hmm.py": "60592c2a84982ef3fd26fcc7aa552260b98be35513057e63e00c8a850df11af7",
     "research_audit\\indices.py": "17c58f22f20cf40c53010525e52ff84edce6d6bda11942a73434bd6c4d3d2881",
     "research_audit\\install_tex.py": "507b9c9854b5891cca82e5470f42d5c6837a9aeaa156500463e35344c472e84d",
-    "research_audit\\manuscript.py": "b0b6eadeb96125aa0ed15eaba3253be9369d4f3004b2636f867a483823c2219e",
-    "research_audit\\package.py": "1f1874954011cb13e574e2eca41d25336802fedb75aeb48075fd249335b3b4d4",
+    "research_audit\\manuscript.py": "ac8daa51cd6ac40cb8e4056fe090b2085c7b316b86d6046404c51cf031d47de9",
+    "research_audit\\package.py": "b3390141b6a29ed2a0735b7c915ee59dd5325ffb766408a78b485996d4e5da75",
     "research_audit\\provenance.py": "a9356010f0132f13f261890eaa760a605c3bc34d6865f3507011a5c1465a9407",
     "research_audit\\reports.py": "9305bf0e6432c3e318e3ac1d1238333999c1f3a83ba4ed8180f26a7c0baeacaa",
     "research_audit\\runner.py": "223976b74699923fcb4054d1cc0552aeb308d13d768ceed7a2bb31d5113a287e",

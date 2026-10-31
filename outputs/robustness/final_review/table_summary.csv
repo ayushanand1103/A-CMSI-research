@@ -1,0 +1,10 @@
+table,rows,checked_fields,passed
+original_table.tex,9,45,True
+hmm_table.tex,4,32,True
+ablation_table.tex,10,70,True
+crisis_table.tex,10,80,True
+evt_table.tex,11,88,True
+diagnostics_table.tex,4,28,True
+paired_table.tex,7,49,True
+conditional_table.tex,4,32,True
+fallback_table.tex,9,18,True

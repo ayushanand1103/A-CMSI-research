@@ -1,0 +1,11 @@
+\begin{table}[htbp]\centering\small
+\caption{HMM density-generalization and stability diagnostics. A rare state has expected training occupancy below max(20,1 percent of training rows). Durations are 1/(1-A ss).}\label{tab:diagnostics}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrrrr}
+\toprule
+K & Initial BIC & OOS log density/day & Rare-state fraction & Refit ARI & Duration & Nonmonotone fits \\
+\midrule
+3 & 6791.0640 & -11.1151 & 0.0000 & 0.9633 & 43.0870 & 0 \\
+4 & 5917.5216 & -11.6698 & 0.0000 & 0.5750 & 32.1628 & 0 \\
+5 & 5568.1103 & -12.8373 & 0.0083 & 0.5551 & 26.4765 & 1 \\
+6 & 5532.2710 & -14.9269 & 0.0122 & 0.4340 & 22.9985 & 1 \\
+\bottomrule\end{tabular}}\end{table}

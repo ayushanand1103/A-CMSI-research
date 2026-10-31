@@ -1,8 +1,8 @@
 \begin{table}[htbp]\centering\small
-\caption{HMM density-generalization and stability diagnostics. A rare state has expected training occupancy below max(20,1 percent of training rows). Durations are 1/(1-A ss).}\label{tab:diagnostics}
+\caption{HMM diagnostics; K is state count. Rare-state fraction is across state/refit records, not days. Rare means expected occupancy below max(20,1 percent of training rows). Duration is $1/(1-A_{ss})$; duration and ARI columns report medians.}\label{tab:diagnostics}
 \resizebox{\textwidth}{!}{\begin{tabular}{lrrrrrr}
 \toprule
-K & Initial BIC & OOS log density/day & Rare-state fraction & Refit ARI & Duration & Nonmonotone fits \\
+K & Initial BIC & OOS log density/day & Rare-state fraction & Median ARI & Median duration & Nonmonotone fits \\
 \midrule
 3 & 6791.0640 & -11.1151 & 0.0000 & 0.9633 & 43.0870 & 0 \\
 4 & 5917.5216 & -11.6698 & 0.0000 & 0.5750 & 32.1628 & 0 \\

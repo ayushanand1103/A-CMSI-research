@@ -36,39 +36,41 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Conditional volatility}{3}{subsection.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Forward-filtered regimes}{3}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Tail severity}{4}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Entropy and adaptive weights}{4}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Entropy and adaptive weights}{5}{subsection.4.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5}Experimental design and inference}{5}{section.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Controlled comparisons}{5}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Forecasting versus detection}{5}{subsection.5.2}\protected@file@percent }
+\citation{kunsch}
+\citation{holm}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Forecasting versus detection}{6}{subsection.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Uncertainty and testing}{6}{subsection.5.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}Results}{6}{section.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Fresh reproduction}{6}{subsection.6.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Original results reproduced from fresh estimation. Annualized volatility uses decimal-return units.}}{6}{table.1}\protected@file@percent }
-\newlabel{tab:original}{{1}{6}{Original results reproduced from fresh estimation. Annualized volatility uses decimal-return units}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Original results reproduced from fresh estimation. Annualized volatility uses decimal-return units.}}{7}{table.1}\protected@file@percent }
+\newlabel{tab:original}{{1}{7}{Original results reproduced from fresh estimation. Annualized volatility uses decimal-return units}{table.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}State count and generalization}{7}{subsection.6.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces State-count robustness on identical chronological scoring dates. The model is the adaptive composite, not the HMM alone.}}{7}{table.2}\protected@file@percent }
 \newlabel{tab:hmm}{{2}{7}{State-count robustness on identical chronological scoring dates. The model is the adaptive composite, not the HMM alone}{table.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces HMM density-generalization and stability diagnostics. A rare state has expected training occupancy below max(20,1 percent of training rows). Durations are 1/(1-A ss).}}{7}{table.3}\protected@file@percent }
-\newlabel{tab:diagnostics}{{3}{7}{HMM density-generalization and stability diagnostics. A rare state has expected training occupancy below max(20,1 percent of training rows). Durations are 1/(1-A ss)}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces HMM diagnostics; K is state count. Rare-state fraction is across state/refit records, not days. Rare means expected occupancy below max(20,1 percent of training rows). Duration is $1/(1-A_{ss})$; duration and ARI columns report medians.}}{8}{table.3}\protected@file@percent }
+\newlabel{tab:diagnostics}{{3}{8}{HMM diagnostics; K is state count. Rare-state fraction is across state/refit records, not days. Rare means expected occupancy below max(20,1 percent of training rows). Duration is $1/(1-A_{ss})$; duration and ARI columns report medians}{table.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Matched state-count RMSE intervals. Marginal interval overlap is not itself a test of a paired difference.}}{8}{figure.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Rare occupancy and adjacent-refit stability under the fixed diagnostic rules.}}{8}{figure.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Incremental HMM contribution and weighting}{8}{subsection.6.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Rare occupancy and adjacent-refit stability under the fixed diagnostic rules.}}{9}{figure.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Controlled HMM ablations and weighting specifications. NoProbability removes P but retains regime multipliers; Entropy removes multipliers but retains P; NoHMM removes both.}}{9}{table.4}\protected@file@percent }
 \newlabel{tab:ablation}{{4}{9}{Controlled HMM ablations and weighting specifications. NoProbability removes P but retains regime multipliers; Entropy removes multipliers but retains P; NoHMM removes both}{table.4}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Adaptive versus controlled references. Positive gain favors Adaptive. Bootstrap intervals are marginal; adjusted p-values refer to squared-loss DM tests.}}{9}{table.5}\protected@file@percent }
 \newlabel{tab:paired}{{5}{9}{Adaptive versus controlled references. Positive gain favors Adaptive. Bootstrap intervals are marginal; adjusted p-values refer to squared-loss DM tests}{table.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Exploratory conditional-information regressions. V/T and P/stress are separate predictors; these rows are not weighted composite specifications.}}{9}{table.6}\protected@file@percent }
-\newlabel{tab:conditional}{{6}{9}{Exploratory conditional-information regressions. V/T and P/stress are separate predictors; these rows are not weighted composite specifications}{table.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Incremental HMM contribution and weighting}{10}{subsection.6.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Exploratory conditional-information regressions. V/T and P/stress are separate predictors; these rows are not weighted composite specifications.}}{10}{table.6}\protected@file@percent }
+\newlabel{tab:conditional}{{6}{10}{Exploratory conditional-information regressions. V/T and P/stress are separate predictors; these rows are not weighted composite specifications}{table.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Paired RMSE improvements for Adaptive relative to controlled references. Positive values favor Adaptive.}}{10}{figure.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}EVT feasibility and sensitivity}{10}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}EVT feasibility and sensitivity}{11}{subsection.6.4}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Empirical ES99 fallback frequency averaged across assets. An all-fallback cell is not a successful GPD robustness check.}}{11}{table.7}\protected@file@percent }
 \newlabel{tab:fallback}{{7}{11}{Empirical ES99 fallback frequency averaged across assets. An all-fallback cell is not a successful GPD robustness check}{table.7}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Matched-date EVT-grid forecast evaluation. w denotes the POT window, q its threshold percentile; component normalization remains 252 days.}}{12}{table.8}\protected@file@percent }
 \newlabel{tab:evt}{{8}{12}{Matched-date EVT-grid forecast evaluation. w denotes the POT window, q its threshold percentile; component normalization remains 252 days}{table.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Crisis prediction and descriptive context}{12}{subsection.6.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Future 30-day crisis prediction, fixed probability cutoff 0.5. These are not same-day detection scores.}}{12}{table.9}\protected@file@percent }
-\newlabel{tab:crisis}{{9}{12}{Future 30-day crisis prediction, fixed probability cutoff 0.5. These are not same-day detection scores}{table.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Fraction of operative tail estimates using empirical ES99 fallback.}}{13}{figure.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Fraction of operative tail estimates using empirical ES99 fallback.}}{12}{figure.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Crisis prediction and descriptive context}{13}{subsection.6.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Future 30-day crisis prediction, fixed probability cutoff 0.5. These are not same-day detection scores.}}{13}{table.9}\protected@file@percent }
+\newlabel{tab:crisis}{{9}{13}{Future 30-day crisis prediction, fixed probability cutoff 0.5. These are not same-day detection scores}{table.9}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Discussion and limitations}{13}{section.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{14}{section.8}\protected@file@percent }
 \bibstyle{plainnat}
@@ -80,11 +82,13 @@
 \bibcite{hamilton}{{5}{1989}{{Hamilton}}{{}}}
 \bibcite{hln}{{6}{1997}{{Harvey et~al.}}{{Harvey, Leybourne, and Newbold}}}
 \bibcite{ciss}{{7}{2012}{{Holl{\'o} et~al.}}{{Holl{\'o}, Kremer, and Lo~Duca}}}
-\bibcite{johansen}{{8}{1988}{{Johansen}}{{}}}
-\bibcite{mcneil}{{9}{2000}{{McNeil and Frey}}{{}}}
-\bibcite{nelson}{{10}{1991}{{Nelson}}{{}}}
-\bibcite{pickands}{{11}{1975}{{Pickands}}{{}}}
-\bibcite{salhi}{{12}{2016}{{Salhi et~al.}}{{Salhi, Deaconu, Lejay, Champagnat, and Navet}}}
-\bibcite{shannon}{{13}{1948}{{Shannon}}{{}}}
-\bibcite{torrence}{{14}{1998}{{Torrence and Compo}}{{}}}
+\bibcite{holm}{{8}{1979}{{Holm}}{{}}}
+\bibcite{johansen}{{9}{1988}{{Johansen}}{{}}}
+\bibcite{kunsch}{{10}{1989}{{K{\"u}nsch}}{{}}}
+\bibcite{mcneil}{{11}{2000}{{McNeil and Frey}}{{}}}
+\bibcite{nelson}{{12}{1991}{{Nelson}}{{}}}
+\bibcite{pickands}{{13}{1975}{{Pickands}}{{}}}
+\bibcite{salhi}{{14}{2016}{{Salhi et~al.}}{{Salhi, Deaconu, Lejay, Champagnat, and Navet}}}
+\bibcite{shannon}{{15}{1948}{{Shannon}}{{}}}
+\bibcite{torrence}{{16}{1998}{{Torrence and Compo}}{{}}}
 \gdef \@abspage@last{16}

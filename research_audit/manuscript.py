@@ -53,7 +53,7 @@ def write_manuscript(root,out,cfg,data):
         "ablation_table.tex":latex_table(ab[ab.variant.isin(selected)],["variant","n","rmse","rmse_interval","mae","auc"],["Model","Dates","RMSE","95\\% block CI","MAE","AUC"],"Controlled HMM ablations and weighting specifications. NoProbability removes P but retains regime multipliers; Entropy removes multipliers but retains P; NoHMM removes both.","tab:ablation"),
         "crisis_table.tex":latex_table(ab[ab.variant.isin(selected)],["variant","precision","recall","f1","auc","auc_interval","brier"],["Model","Precision","Recall","F1","AUC","95\\% AUC CI","Brier"],"Future 30-day crisis prediction, fixed probability cutoff 0.5. These are not same-day detection scores.","tab:crisis"),
         "evt_table.tex":latex_table(et,["variant","n","rmse","rmse_interval","mae","auc","brier"],["Tail specification","Dates","RMSE","95\\% block CI","MAE","AUC","Brier"],"Matched-date EVT-grid forecast evaluation. w denotes the POT window, q its threshold percentile; component normalization remains 252 days.","tab:evt"),
-        "diagnostics_table.tex":latex_table(diag,["states","initial_bic","conditional_test_ll_per_day","mean_rare_state_fraction","median_refit_ari","median_expected_duration","selected_nonmonotone"],["K","Initial BIC","OOS log density/day","Rare-state fraction","Refit ARI","Duration","Nonmonotone fits"],"HMM density-generalization and stability diagnostics. A rare state has expected training occupancy below max(20,1 percent of training rows). Durations are 1/(1-A ss).", "tab:diagnostics"),
+        "diagnostics_table.tex":latex_table(diag,["states","initial_bic","conditional_test_ll_per_day","mean_rare_state_fraction","median_refit_ari","median_expected_duration","selected_nonmonotone"],["K","Initial BIC","OOS log density/day","Rare-state fraction","Median ARI","Median duration","Nonmonotone fits"],r"HMM diagnostics; K is state count. Rare-state fraction is across state/refit records, not days. Rare means expected occupancy below max(20,1 percent of training rows). Duration is $1/(1-A_{ss})$; duration and ARI columns report medians.", "tab:diagnostics"),
         "paired_table.tex":latex_table(paired[(paired.family.eq("ablation"))&(paired.candidate.eq("Adaptive"))],["reference","rmse_improvement","rmse_ci_low","rmse_ci_high","pvalue","p_holm_family","p_holm_global"],["Reference","RMSE gain","CI lower","CI upper","DM p","Family Holm","Global Holm"],"Adaptive versus controlled references. Positive gain favors Adaptive. Bootstrap intervals are marginal; adjusted p-values refer to squared-loss DM tests.","tab:paired"),
         "conditional_table.tex":latex_table(ab[ab.variant.str.startswith("Conditional")],["variant","n","rmse","rmse_interval","mae","auc","brier"],["Regressors","Dates","RMSE","95\\% block CI","MAE","AUC","Brier"],"Exploratory conditional-information regressions. V/T and P/stress are separate predictors; these rows are not weighted composite specifications.","tab:conditional")}
     for name,text in tables.items():
@@ -94,8 +94,8 @@ evaluates direct and deficit entropy weights, and tests nine EVT window/threshol
 @@ABSTRACT@@
 The study separates after-close detection from future-event prediction, reports dependence-aware
 uncertainty and multiplicity-adjusted loss comparisons, and retains unfavorable baselines.
-The evidence supports a transparent research framework, rather than a universal predictive advantage
-for adaptive weighting or a deployment-ready systemic-risk indicator.
+Adaptive weighting has no demonstrated predictive advantage over simpler weighting baselines in this
+sample. The evidence supports a transparent research framework, not a deployment-ready systemic-risk indicator.
 \end{abstract}
 \textbf{Keywords:} equity-market stress; composite indicator; GARCH; hidden Markov model;
 extreme value theory; entropy weighting; chronological validation.\\
@@ -144,7 +144,8 @@ derived from full-sample smoothing. Forecast comparison follows the squared-loss
 \section{Data, chronology and reproducibility}
 The canonical local input contains 2,765 complete adjusted-price rows from 2 January 2015 through
 30 December 2025. For asset $a$, daily log return is
-\begin{equation}r_{a,t}=\log P_{a,t}-\log P_{a,t-1}.\end{equation}
+\begin{equation}r_{a,t}=\log \Pi_{a,t}-\log \Pi_{a,t-1},\end{equation}
+where $\Pi$ denotes adjusted price, distinct from the panic component $P_t$.
 This yields 2,764 return dates. Prices are checked for missing and nonpositive values, sorted unique
 dates and alignment. The saved VIX observations start on 4 January 2016; earlier missing VIX values
 are not backfilled using future data. Legacy saved returns differ very slightly from recomputation,
@@ -184,7 +185,8 @@ Z_t(X)=\operatorname{clip}_{[-3,3]}
 \left[\frac{X_t-\bar X_{t,252}}{s_{t,252}(X)}\right],
 \quad \bar X_{t,252}=\frac1{252}\sum_{k=0}^{251}X_{t-k}.
 \end{equation}
-Sample standard deviation is used; incomplete windows remain missing. Today's value is included
+Sample standard deviation with denominator 251 is used; incomplete windows and zero-variance
+normalizations remain missing. Today's value is included
 because signals are after close. Thus $V_{a,t}=Z_t(\sigma_a)$. No full-sample normalization is used.
 
 \subsection{Forward-filtered regimes}
@@ -195,7 +197,9 @@ For transition matrix $A$, state density $f_s$, and filtered probability $\alpha
 \alpha_t(s)=\frac{f_s(x_t)\sum_j\alpha_{t-1}(j)A_{js}}
 {\sum_\ell f_\ell(x_t)\sum_j\alpha_{t-1}(j)A_{j\ell}}.
 \end{equation}
-No backward smoothing conditions today's probability on later observations. At every refit, training
+No backward smoothing conditions today's probability on later observations. Initialize the first
+posterior proportional to start probabilities times the first observation likelihood; the transition
+recursion applies from the second observation onward. At every refit, training
 means rank states using VIX, realized volatility, conditional volatility and inverse return. The
 highest-risk state defines raw panic probability; normalized $P_t=Z_t(\alpha_t(s_{\rm panic}))$
 is common to all asset indices. Numeric state IDs themselves have no persistent economic meaning.
@@ -216,30 +220,40 @@ G(y)=1-\left(1+\xi_t y/\beta_t\right)^{-1/\xi_t},
 on its valid support, with fixed location zero and logarithmic/exponential limits at $\xi=0$.
 If $p_{u,t}=n_{u,t}/N$ is the exceedance rate, then
 \begin{align}
-\operatorname{VaR}_{\alpha,t}
+\operatorname{VaR}_{\tau,t}
  &=u_t+\frac{\beta_t}{\xi_t}
- \left[\left(\frac{p_{u,t}}{1-\alpha}\right)^{\xi_t}-1\right],\\
-\operatorname{ES}_{\alpha,t}
- &=\frac{\operatorname{VaR}_{\alpha,t}+\beta_t-\xi_tu_t}{1-\xi_t},\quad \xi_t<1.
+ \left[\left(\frac{p_{u,t}}{1-\tau}\right)^{\xi_t}-1\right],\\
+\operatorname{ES}_{\tau,t}
+ &=\frac{\operatorname{VaR}_{\tau,t}+\beta_t-\xi_tu_t}{1-\xi_t},\quad \xi_t<1.
 \end{align}
-The baseline uses $N=252$, $q=0.90$, at least 20 exceedances, and $\alpha=0.99$.
+Here $\tau$ is the loss-quantile confidence level, distinct from HMM probabilities $\alpha_t(s)$,
+and extrapolation requires $1-\tau\leq p_{u,t}$. At $\xi_t=0$, VaR is
+$u_t+\beta_t\log[p_{u,t}/(1-\tau)]$. The baseline uses $N=252$, $q=0.90$,
+at least 20 exceedances, and $\tau=0.99$.
 When insufficient excesses, numerical failure or infinite fitted ES makes the GPD unusable,
 the operational raw tail score uses empirical ES99. The failure status and missing parametric
 quantity are retained. Thus $T_{a,t}$ is a normalized \emph{hybrid} tail-severity estimator,
 not an always-successful GPD estimate. Shape is never clipped to manufacture a finite mean.
+The fallback averages observed losses at or above the window's empirical 99th-percentile
+quantile, without fractional weighting of the boundary observation. $T_{a,t}$ is the raw
+operative tail score passed through $Z_t(\cdot)$ once.
 
 The sensitivity grid is $N\in\{252,378,504\}$ and $q\in\{0.90,0.95,0.975\}$, with the original
 20-exceedance constraint and 252-day normalization unchanged. Static full-sample fits are labeled
 descriptive and never select the forecast specification.
 
 \subsection{Entropy and adaptive weights}
+For asset $a$, define the already normalized vector by $Z_{a,V,t}=V_{a,t}$,
+$Z_{a,P,t}=P_t$, and $Z_{a,T,t}=T_{a,t}$; no second normalization is applied.
 For component $i\in\{V,P,T\}$ and trailing entropy window $W=63$, define probabilities across time:
 \begin{equation}
-p_{i,k,t}=\frac{|Z_{i,t-k}|}{\sum_{j=0}^{W-1}|Z_{i,t-j}|},\quad
-H_{i,t}=-\frac{\sum_{k=0}^{W-1}p_{i,k,t}\log p_{i,k,t}}{\log W}.
+p_{a,i,k,t}=\frac{|Z_{a,i,t-k}|}{\sum_{j=0}^{W-1}|Z_{a,i,t-j}|},\quad
+H_{a,i,t}=-\frac{\sum_{k=0}^{W-1}p_{a,i,k,t}\log p_{a,i,k,t}}{\log W}.
 \end{equation}
-Direct entropy weights normalize $H_i$; deficit weights normalize $1-H_i$. A complete all-zero
-denominator receives equal weights; incomplete windows remain missing. Direct entropy rewards
+The convention is $0\log0=0$. A complete zero-magnitude component window has $H=0$.
+Direct entropy weights normalize $H_{a,i,t}$ across components; deficit weights normalize
+$1-H_{a,i,t}$. If that cross-component total is zero, base weights are equal;
+incomplete windows remain missing. Direct entropy rewards
 sustained temporal activity, while deficit weights emphasize concentrated activity. Neither definition
 identifies economically useful information without empirical testing.
 
@@ -250,14 +264,16 @@ f_{V,t}=1.3-0.5S_t,\quad f_{P,t}=0.8+0.3S_t,\quad f_{T,t}=0.9+0.5S_t.
 \end{equation}
 This is the historical extension to ranked five-state probabilities, not a newly estimated multiplier
 rule. It does not exactly preserve the neutral vector of the original conceptual three-regime table.
-For entropy base $e_{i,t}$, raw weight $q_{i,t}=e_{i,t}f_{i,t}$ receives the exact floor map
+For asset-specific entropy base $e_{a,i,t}$, raw weight
+$\omega^{\rm raw}_{a,i,t}=e_{a,i,t}f_{i,t}$ receives the exact floor map
 \begin{equation}
-w_{i,t}=m+(1-Km)\frac{q_{i,t}}{\sum_jq_{j,t}},\quad m=0.05,
+w_{a,i,t}=m+(1-Mm)\frac{\omega^{\rm raw}_{a,i,t}}{\sum_j\omega^{\rm raw}_{a,j,t}},\quad m=0.05,
 \end{equation}
-where $K$ is the number of included components, not the HMM state count. This guarantees nonnegative
+where $M$ is the number of included components and $0\leq m<1/M$; $K$ denotes the HMM state count.
+Weights differ by asset, even though panic probability and regime factors are shared. This guarantees nonnegative
 weights, the minimum and a unit sum simultaneously. The final index is
 \begin{equation}
-\operatorname{ACMSI}_{a,t}=\sum_iw_{i,t}Z_{a,i,t},\qquad
+\operatorname{ACMSI}_{a,t}=\sum_iw_{a,i,t}Z_{a,i,t},\qquad
 \operatorname{ACMSI}_{\rm portfolio,t}=\frac13\sum_{a\in\{\mathrm{AAPL,MSFT,SPY}\}}
 \operatorname{ACMSI}_{a,t}.
 \end{equation}
@@ -274,7 +290,8 @@ reported constrained alternative. Original entropy exports are pre-floor weights
 index applies the floor. The audit does not silently rewrite the original scores.
 
 Conditional\-VT, Conditional\-VTP, Conditional\-VT\-Stress and Conditional\-VTP\-Stress use separate V/T/P/stress
-regressors in otherwise fixed ridge/logistic calibration. They are exploratory incremental-information
+regressors in otherwise fixed ridge/logistic calibration. Ridge uses regularization $\alpha_{\rm ridge}=1$;
+logistic regression uses inverse regularization $C=1$. They are exploratory incremental-information
 diagnostics, not new composite weights. No hyperparameter is optimized on evaluation outcomes.
 
 \subsection{Forecasting versus detection}
@@ -285,11 +302,13 @@ A training label is admitted only if its entire 30-day future window ends before
 block. At least 126 mature operational observations are needed. Training means and current 30-day
 realized volatility provide constant and persistence baselines.
 
-A contemporaneous crisis label is one for SPY daily return below $-3\%$ or trailing 20-day cumulative
-return below $-10\%$. Same-day index threshold scores are \emph{after-close detection}. Separate
-logistic models with penalty one forecast any crisis label in the next 30 trading days. Precision,
+A contemporaneous crisis label is one for SPY daily log return below $-0.03$ or trailing 20-day
+simple cumulative price return below $-0.10$. Same-day index threshold scores are \emph{after-close detection}. Separate
+logistic models with inverse regularization $C=1$ forecast any crisis label in the next 30 trading days. Precision,
 recall and F1 use a predeclared probability cutoff of 0.5; ROC AUC is threshold-free. Expanding
-training prevalence is supplied as a probability baseline. The future filtered-regime transition
+training prevalence is supplied as a probability baseline.
+For the TrainMean and RealizedVolBaseline rows, crisis probabilities use this training prevalence;
+those rows do not represent separate volatility-driven crisis classifiers. The future filtered-regime transition
 target remains a model-derived proxy and does not substitute for observed crisis labels.
 
 \subsection{Uncertainty and testing}
@@ -299,9 +318,10 @@ horizon $h=30$ multiplies the statistic by
 \begin{equation}
 \sqrt{\frac{n+1-2h+h(h-1)/n}{n}}.
 \end{equation}
-Paired circular moving-block bootstrap uses 30-day blocks and 1,000 replicates, resampling outcomes
+Following the dependent-data block-bootstrap principle \citep{kunsch}, the circular moving-block
+implementation uses 30-day blocks and 1,000 replicates, resampling outcomes
 and predictions together. The 60-day sensitivity changes block length and HAC bandwidth to 59.
-Holm corrections are supplied within each stated squared-loss family and across the full comparison
+Holm corrections \citep{holm} are supplied within each stated squared-loss family and across the full comparison
 set. Bootstrap intervals for other metrics are marginal descriptive intervals, not simultaneous bands.
 AUC draws without both classes are omitted and counted. Nonsignificance is not evidence of equivalence.
 
@@ -319,6 +339,10 @@ Adaptive does not establish a forecasting advantage over Equal or NoHMM in that 
 @@HMM_CONCLUSION@@
 
 @@DENSITY@@
+
+Emission-density diagnostics cover all 2,008 post-initial-training return days, whereas the calibrated
+volatility forecasts cover 1,810 scoring dates. The three-month-block density comparison was added
+after inspecting the train/test density pattern and is explicitly exploratory.
 
 The density result and index-forecast result address different targets. More complex Gaussian
 emissions can improve training fit while assigning poor conditional density to later observations;
@@ -421,7 +445,8 @@ This revision reproduces the original A-CMSI experiment and executes the previou
 state-count, controlled-ablation, weighting and EVT-grid alternatives. All comparisons preserve
 chronological model fitting, mature-label calibration and fixed hyperparameters. The contribution
 is a transparent and reproducible stress-measurement framework with an explicit robustness audit,
-not proof of uniformly superior adaptive forecasting.
+not proof of uniformly superior adaptive forecasting. Adaptive weighting has no demonstrated predictive
+advantage over simpler weighting baselines in this sample; failure to reject equal loss is not equivalence.
 @@CONCLUSION@@
 Further work should use a new evaluation period, broader non-overlapping exposures, verified
 point-in-time observations and independently specified tail/state diagnostics before operational

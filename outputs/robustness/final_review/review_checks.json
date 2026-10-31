@@ -1,0 +1,14 @@
+{
+  "reviewed_utc": "2026-10-31T10:15:15.596952+00:00",
+  "tables": 9,
+  "checked_table_fields": 442,
+  "recomputed_metric_fields": 336,
+  "all_numeric_checks_pass": true,
+  "citations": 16,
+  "bibliographic_entries": 16,
+  "all_citations_defined": true,
+  "no_uncited_entries": true,
+  "doi_preserved": true,
+  "negative_primary_finding_explicit": true,
+  "original_datasets_unchanged": true
+}

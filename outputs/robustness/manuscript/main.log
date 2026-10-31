@@ -419,22 +419,22 @@ Package microtype Info: Loading generic protrusion settings for font family
  [1
 
 ]
-[2] [3] [4] [5] (original_table.tex) [6] (hmm_table.tex) (diagnostics_table.tex
-)
+[2] [3] [4] [5] (original_table.tex) (hmm_table.tex [6]) (diagnostics_table.tex
+) [7]
 File: figures/hmm_rmse.png Graphic file (type bmp)
 <figures/hmm_rmse.png>
 File: figures/hmm_stability.png Graphic file (type bmp)
 <figures/hmm_stability.png>
- (ablation_table.tex) (paired_table.tex) (conditional_table.tex) [7] [8]
-[9]
+ (ablation_table.tex) (paired_table.tex) (conditional_table.tex)
 File: figures/ablation_effects.png Graphic file (type bmp)
 <figures/ablation_effects.png>
- (fallback_table.tex) (evt_table.tex) [10] [11]
+
+(fallback_table.tex [8] [9] [10]) (evt_table.tex)
 File: figures/evt_fallback.png Graphic file (type bmp)
 <figures/evt_fallback.png>
- (crisis_table.tex) [12]
-[13] [14] (main.bbl [15]) [16] (main.aux)
+ (crisis_table.tex [11]
+[12]) [13] [14] (main.bbl [15]) [16] (main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 47FDD65FA3F6576853B488F48515BCE0;3658.
  )
-Output written on main.xdv (16 pages, 67148 bytes).
+Output written on main.xdv (16 pages, 71356 bytes).

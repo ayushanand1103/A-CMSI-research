@@ -25,9 +25,9 @@ estimate RMSE among the displayed composite/baseline variants is obtained by NoH
 EVT conﬁgurations cannot meet the ﬁxed minimum-exceedance rule and become entirely empir-
 ical fallback estimates. The study separates after-close detection from future-event prediction,
 reports dependence-aware uncertainty and multiplicity-adjusted loss comparisons, and retains
-unfavorable baselines. The evidence supports a transparent research framework, rather than
-a universal predictive advantage for adaptive weighting or a deployment-ready systemic-risk
-indicator.
+unfavorable baselines. Adaptive weighting has no demonstrated predictive advantage over sim-
+pler weighting baselines in this sample. The evidence supports a transparent research framework,
+not a deployment-ready systemic-risk indicator.
 Keywords: equity-market stress; composite indicator; GARCH; hidden Markov model; extreme
 value theory; entropy weighting; chronological validation.
 JEL: C58, G01, C53, G17.
@@ -73,12 +73,13 @@ et al. [1997] and additional block resampling.
 3 Data, chronology and reproducibility
 The canonical local input contains 2,765 complete adjusted-price rows from 2 January 2015 through
 30 December 2025. For asset a, daily log return is
-ra,t = log Pa,t − log Pa,t−1. (1)
+ra,t = log Πa,t − log Πa,t−1, (1)
 2
-This yields 2,764 return dates. Prices are checked for missing and nonpositive values, sorted unique
-dates and alignment. The saved VIX observations start on 4 January 2016; earlier missing VIX
-values are not backﬁlled using future data. Legacy saved returns diﬀer very slightly from recompu-
-tation, so the operational pipeline always derives returns from the canonical dated price ﬁle.
+where Π denotes adjusted price, distinct from the panic component Pt. This yields 2,764 return
+dates. Prices are checked for missing and nonpositive values, sorted unique dates and alignment.
+The saved VIX observations start on 4 January 2016; earlier missing VIX values are not backﬁlled
+using future data. Legacy saved returns diﬀer very slightly from recomputation, so the operational
+pipeline always derives returns from the canonical dated price ﬁle.
 The initial model window contains 756 return observations. Selected mean/variance speciﬁcations
 and HMM parameters are re-estimated every 21 trading days. The next block receives ﬁxed esti-
 mated parameters; after-close observations update residuals and ﬁltered states sequentially. The
@@ -114,8 +115,9 @@ st,252(X)
 251∑
 k=0
 Xt−k. (2)
-Sample standard deviation is used; incomplete windows remain missing. Today’s value is included
-because signals are after close. Thus Va,t = Zt(σa). No full-sample normalization is used.
+Sample standard deviation with denominator 251 is used; incomplete windows and zero-variance
+normalizations remain missing. Today’s value is included because signals are after close. Thus
+Va,t = Zt(σa). No full-sample normalization is used.
 4.2 Forward-ﬁltered regimes
 The multivariate Gaussian HMM observes SPY return, normalized conditional volatility, 21-day
 realized volatility and skewness, drawdown, volatility of volatility, VIX and mean pairwise return
@@ -128,10 +130,12 @@ j αt−1(j)Ajs
 ℓ fℓ(xt) ∑
 j αt−1(j)Ajℓ
 . (3)
-No backward smoothing conditions today’s probability on later observations. At every reﬁt, training
-means rank states using VIX, realized volatility, conditional volatility and inverse return. The
-highest-risk state deﬁnes raw panic probability; normalized Pt = Zt(αt(spanic)) is common to all
-asset indices. Numeric state IDs themselves have no persistent economic meaning.
+No backward smoothing conditions today’s probability on later observations. Initialize the ﬁrst
+posterior proportional to start probabilities times the ﬁrst observation likelihood; the transition
+recursion applies from the second observation onward. At every reﬁt, training means rank states
+using VIX, realized volatility, conditional volatility and inverse return. The highest-risk state deﬁnes
+raw panic probability; normalized Pt = Zt(αt(spanic)) is common to all asset indices. Numeric state
+IDs themselves have no persistent economic meaning.
 The original model uses ﬁve states. The audit executes three to six states at all 96 origins with
 seeds 42, 43 and 44 and at most 200 EM iterations. Maximum training likelihood chooses the
 restart. Iteration limits and negative ﬁnal likelihood increments are reported rather than hidden
@@ -145,53 +149,65 @@ estimated only from that window. Positive excesses Y = L − ut follow the ﬁtt
 G(y) = 1 − (1 + ξty/βt)−1/ξt , (4)
 on its valid support, with ﬁxed location zero and logarithmic/exponential limits at ξ = 0 . If
 pu,t = nu,t/N is the exceedance rate, then
-VaRα,t = ut + βt
+VaRτ,t = ut + βt
 ξt
 [ ( pu,t
-1 − α
+1 − τ
 ) ξt
 − 1
 ]
 , (5)
-ESα,t = VaRα,t +βt − ξtut
+ESτ,t = VaRτ,t +βt − ξtut
 1 − ξt
 , ξ t < 1. (6)
-The baseline uses N = 252 , q = 0 .90, at least 20 exceedances, and α = 0 .99. When insuﬃcient
-excesses, numerical failure or inﬁnite ﬁtted ES makes the GPD unusable, the operational raw tail
-score uses empirical ES99. The failure status and missing parametric quantity are retained. Thus
-Ta,t is a normalized hybrid tail-severity estimator, not an always-successful GPD estimate. Shape
-is never clipped to manufacture a ﬁnite mean.
+Here τ is the loss-quantile conﬁdence level, distinct from HMM probabilities αt(s), and extrapola-
+tion requires 1 − τ ≤ pu,t. At ξt = 0 , VaR is ut + βt log[pu,t/(1 − τ )]. The baseline uses N = 252 ,
+q = 0 .90, at least 20 exceedances, and τ = 0 .99. When insuﬃcient excesses, numerical failure
+or inﬁnite ﬁtted ES makes the GPD unusable, the operational raw tail score uses empirical ES99.
+The failure status and missing parametric quantity are retained. Thus Ta,t is a normalized hybrid
+tail-severity estimator, not an always-successful GPD estimate. Shape is never clipped to manu-
+facture a ﬁnite mean. The fallback averages observed losses at or above the window’s empirical
+99th-percentile quantile, without fractional weighting of the boundary observation. Ta,t is the raw
+operative tail score passed through Zt(·) once.
 The sensitivity grid is N ∈ { 252, 378, 504} and q ∈ { 0.90, 0.95, 0.975}, with the original 20-
 exceedance constraint and 252-day normalization unchanged. Static full-sample ﬁts are labeled
 descriptive and never select the forecast speciﬁcation.
-4.4 Entropy and adaptive weights
-For component i ∈ {V, P, T } and trailing entropy window W = 63, deﬁne probabilities across time:
-pi,k,t = |Zi,t−k|∑W −1
-j=0 |Zi,t−j|
-, H i,t = −
-∑W −1
-k=0 pi,k,t log pi,k,t
-log W . (7)
 4
-Direct entropy weights normalize Hi; deﬁcit weights normalize 1 − Hi. A complete all-zero denomi-
-nator receives equal weights; incomplete windows remain missing. Direct entropy rewards sustained
-temporal activity, while deﬁcit weights emphasize concentrated activity. Neither deﬁnition identiﬁes
-economically useful information without empirical testing.
+4.4 Entropy and adaptive weights
+For asset a, deﬁne the already normalized vector by Za,V,t = Va,t, Za,P,t = Pt, and Za,T,t = Ta,t; no
+second normalization is applied. For component i ∈ {V, P, T } and trailing entropy window W = 63,
+deﬁne probabilities across time:
+pa,i,k,t = |Za,i,t−k|∑W −1
+j=0 |Za,i,t−j|
+, H a,i,t = −
+∑W −1
+k=0 pa,i,k,t log pa,i,k,t
+log W . (7)
+The convention is 0 log 0 = 0 . A complete zero-magnitude component window has H = 0 . Direct
+entropy weights normalize Ha,i,t across components; deﬁcit weights normalize 1 − Ha,i,t. If that
+cross-component total is zero, base weights are equal; incomplete windows remain missing. Direct
+entropy rewards sustained temporal activity, while deﬁcit weights emphasize concentrated activity.
+Neither deﬁnition identiﬁes economically useful information without empirical testing.
 Let ρs be evenly spaced risk ranks from zero to one, assigned from training means, and St =∑
 s αt(s)ρs. Soft factors interpolate the documented bull/panic endpoints:
 fV,t = 1.3 − 0.5St, f P,t = 0.8 + 0.3St, f T,t = 0.9 + 0.5St. (8)
 This is the historical extension to ranked ﬁve-state probabilities, not a newly estimated multiplier
 rule. It does not exactly preserve the neutral vector of the original conceptual three-regime table.
-For entropy base ei,t, raw weight qi,t = ei,tfi,t receives the exact ﬂoor map
-wi,t = m + (1 − Km) qi,t∑
-j qj,t
+For asset-speciﬁc entropy base ea,i,t, raw weight ωraw
+a,i,t = ea,i,tfi,t receives the exact ﬂoor map
+wa,i,t = m + (1 − M m)
+ωraw
+a,i,t∑
+j ωraw
+a,j,t
 , m = 0.05, (9)
-where K is the number of included components, not the HMM state count. This guarantees
-nonnegative weights, the minimum and a unit sum simultaneously. The ﬁnal index is
+where M is the number of included components and 0 ≤ m < 1/M; K denotes the HMM state
+count. Weights diﬀer by asset, even though panic probability and regime factors are shared. This
+guarantees nonnegative weights, the minimum and a unit sum simultaneously. The ﬁnal index is
 ACMSIa,t =
 ∑
 i
-wi,tZa,i,t, ACMSIportfolio,t = 1
+wa,i,tZa,i,t, ACMSIportfolio,t = 1
 3
 ∑
 a∈{AAPL,MSFT,SPY}
@@ -208,10 +224,12 @@ visible. PCA uses earlier observations only. The original PCA method does not im
 mum ﬂoor; PCAFloor is a separately reported constrained alternative. Original entropy exports are
 pre-ﬂoor weights, whereas the entropy index applies the ﬂoor. The audit does not silently rewrite
 the original scores.
+5
 ConditionalVT, ConditionalVTP, ConditionalVTStress and ConditionalVTPStress use separate
-V/T/P/stress regressors in otherwise ﬁxed ridge/logistic calibration. They are exploratory
-incremental-information diagnostics, not new composite weights. No hyperparameter is optimized
-on evaluation outcomes.
+V/T/P/stress regressors in otherwise ﬁxed ridge/logistic calibration. Ridge uses regularization
+αridge = 1; logistic regression uses inverse regularization C = 1. They are exploratory incremental-
+information diagnostics, not new composite weights. No hyperparameter is optimized on evaluation
+outcomes.
 5.2 Forecasting versus detection
 The future volatility target is the next 30 daily returns’ sample standard deviation annualized
 by
@@ -219,29 +237,36 @@ by
 252. Standardized ridge calibration with penalty one predicts log volatility; exponentiation
 produces forecasts. This preserves the original method, without a lognormal mean-bias correction.
 A training label is admitted only if its entire 30-day future window ends before the next predicted
-5
 block. At least 126 mature operational observations are needed. Training means and current 30-day
 realized volatility provide constant and persistence baselines.
-A contemporaneous crisis label is one for SPY daily return below −3% or trailing 20-day cumulative
-return below −10%. Same-day index threshold scores are after-close detection . Separate logistic
-models with penalty one forecast any crisis label in the next 30 trading days. Precision, recall
-and F1 use a predeclared probability cutoﬀ of 0.5; ROC AUC is threshold-free. Expanding training
-prevalence is supplied as a probability baseline. The future ﬁltered-regime transition target remains
-a model-derived proxy and does not substitute for observed crisis labels.
+A contemporaneous crisis label is one for SPY daily log return below −0.03 or trailing 20-day sim-
+ple cumulative price return below −0.10. Same-day index threshold scores are after-close detection.
+Separate logistic models with inverse regularization C = 1 forecast any crisis label in the next 30
+trading days. Precision, recall and F1 use a predeclared probability cutoﬀ of 0.5; ROC AUC is
+threshold-free. Expanding training prevalence is supplied as a probability baseline. For the Train-
+Mean and RealizedVolBaseline rows, crisis probabilities use this training prevalence; those rows do
+not represent separate volatility-driven crisis classiﬁers. The future ﬁltered-regime transition target
+remains a model-derived proxy and does not substitute for observed crisis labels.
 5.3 Uncertainty and testing
 For forecasts A and B, squared-loss diﬀerence dt = (yt − ˆyA,t)2 − (yt − ˆyB,t)2 enters a DM statistic
 with Bartlett HAC long-run variance through lag 29. The HLN correction at horizon h = 30
 multiplies the statistic by √
 n + 1 − 2h + h(h − 1)/n
 n . (11)
-Paired circular moving-block bootstrap uses 30-day blocks and 1,000 replicates, resampling out-
-comes and predictions together. The 60-day sensitivity changes block length and HAC bandwidth
-to 59. Holm corrections are supplied within each stated squared-loss family and across the full
-comparison set. Bootstrap intervals for other metrics are marginal descriptive intervals, not simul-
-taneous bands. AUC draws without both classes are omitted and counted. Nonsigniﬁcance is not
-evidence of equivalence.
+Following the dependent-data block-bootstrap principle [ Künsch, 1989], the circular moving-block
+implementation uses 30-day blocks and 1,000 replicates, resampling outcomes and predictions to-
+gether. The 60-day sensitivity changes block length and HAC bandwidth to 59. Holm corrections
+[Holm, 1979] are supplied within each stated squared-loss family and across the full comparison set.
+Bootstrap intervals for other metrics are marginal descriptive intervals, not simultaneous bands.
+AUC draws without both classes are omitted and counted. Nonsigniﬁcance is not evidence of
+equivalence.
 6 Results
 6.1 Fresh reproduction
+Fresh ﬁve-state estimation reproduces the original RMSE, MAE, directional accuracy and crisis
+metrics, together with saved predictions, components and initial-training BIC comparisons. Origi-
+nal and revised outputs are stored separately. The published negative result is retained: Adaptive
+does not establish a forecasting advantage over Equal or NoHMM in that sample.
+6
 Table 1: Original results reproduced from fresh estimation. Annualized volatility uses decimal-
 return units.
 Model Dates RMSE MAE Future-crisis AUC
@@ -254,11 +279,6 @@ Adaptive 1810 0.1053 0.0569 0.6583
 NoGARCH 1810 0.1058 0.0572 0.6468
 NoEVT 1810 0.1068 0.0597 0.5919
 RealizedVolBaseline 1810 0.1227 0.0686 –
-6
-Fresh ﬁve-state estimation reproduces the original RMSE, MAE, directional accuracy and crisis
-metrics, together with saved predictions, components and initial-training BIC comparisons. Origi-
-nal and revised outputs are stored separately. The published negative result is retained: Adaptive
-does not establish a forecasting advantage over Equal or NoHMM in that sample.
 6.2 State count and generalization
 Table 2: State-count robustness on identical chronological scoring dates. The model is the adaptive
 composite, not the HMM alone.
@@ -267,13 +287,6 @@ HMM3 1810 0.1067 [0.0577, 0.1563] 0.0590 0.6164 0.1974
 HMM4 1810 0.1069 [0.0574, 0.1574] 0.0591 0.6395 0.1929
 HMM5 1810 0.1053 [0.0557, 0.1555] 0.0569 0.6583 0.1869
 HMM6 1810 0.1050 [0.0559, 0.1544] 0.0570 0.6481 0.1866
-Table 3: HMM density-generalization and stability diagnostics. A rare state has expected training
-occupancy below max(20,1 percent of training rows). Durations are 1/(1-A ss).
-K Initial BIC OOS log density/day Rare-state fraction Reﬁt ARI Duration Nonmonotone ﬁts
-3 6791.0640 -11.1151 0.0000 0.9633 43.0870 0
-4 5917.5216 -11.6698 0.0000 0.5750 32.1628 0
-5 5568.1103 -12.8373 0.0083 0.5551 26.4765 1
-6 5532.2710 -14.9269 0.0122 0.4340 22.9985 1
 HMM6 has the smaller point-estimate volatility RMSE. The ﬁve-versus-six comparison does not
 establish a family-adjusted volatility advantage; the RMSE diﬀerence remains uncertain. This is
 not proof of equivalence. Training BIC alone does not establish out-of-sample overﬁtting.
@@ -283,17 +296,41 @@ conditional log density by -2.090 per day relative to ﬁve (three-month-block 9
 density estimation; it does not automatically establish a volatility-forecast disadvantage. The
 interval includes zero, so a density disadvantage is not statistically established. The density interval
 is exploratory and not a multiplicity-adjusted conﬁrmatory test.
+Emission-density diagnostics cover all 2,008 post-initial-training return days, whereas the calibrated
+volatility forecasts cover 1,810 scoring dates. The three-month-block density comparison was added
+after inspecting the train/test density pattern and is explicitly exploratory.
 The density result and index-forecast result address diﬀerent targets. More complex Gaussian
 emissions can improve training ﬁt while assigning poor conditional density to later observations; a
 nonlinear ﬁltered-probability index need not exhibit the same ranking under volatility RMSE. Raw
+7
+Table 3: HMM diagnostics; K is state count. Rare-state fraction is across state/reﬁt records, not
+days. Rare means expected occupancy below max(20,1 percent of training rows). Duration is
+1/(1 − Ass); duration and ARI columns report medians.
+K Initial BIC OOS log density/day Rare-state fraction Median ARI Median duration Nonmonotone ﬁts
+3 6791.0640 -11.1151 0.0000 0.9633 43.0870 0
+4 5917.5216 -11.6698 0.0000 0.5750 32.1628 0
+5 5568.1103 -12.8373 0.0083 0.5551 26.4765 1
+6 5532.2710 -14.9269 0.0122 0.4340 22.9985 1
 state IDs cannot be compared across ﬁts without alignment. Rare occupancy, reﬁt instability and
 close emission distributions are diagnostics rather than decisive individual tests of overﬁtting. The
 historical default is retained for continuity, not selected anew from these inspected outcomes.
-7
 Figure 1: Matched state-count RMSE intervals. Marginal interval overlap is not itself a test of a
 paired diﬀerence.
-Figure 2: Rare occupancy and adjacent-reﬁt stability under the ﬁxed diagnostic rules.
+6.3 Incremental HMM contribution and weighting
+Removing P alone gives RMSE 0.10519; removing multipliers alone gives 0.10478; removing both
+gives 0.10411, compared with 0.10532 for Adaptive. The paired RMSE intervals for these three
+Adaptive contrasts include zero. This pattern is consistent with redundant/noisy contributions
+under this ﬁxed calibration, but it does not identify a unique mechanism or prove that HMM
+information is useless. The lowest composite point estimate is NoHMM, 0.10411. Full paired
+eﬀect sizes and adjusted loss-test p-values are reported rather than inferring signiﬁcance from point
+rankings. Removing P and removing regime factors are diﬀerent interventions. Improvements must
+be read with paired uncertainty, rather than assigned to an assumed mechanism based on a single
+ranking. The conditional regressions ask whether P/stress has incremental information beyond
+V/T under the same ﬁxed calibration. They do not establish structural causality or prove absence
+of information when an interval contains zero. PCAFloor explicitly tests a constraint correction
+while preserving the original unconstrained PCA baseline.
 8
+Figure 2: Rare occupancy and adjacent-reﬁt stability under the ﬁxed diagnostic rules.
 Table 4: Controlled HMM ablations and weighting speciﬁcations. NoProbability removes P but
 retains regime multipliers; Entropy removes multipliers but retains P; NoHMM removes both.
 Model Dates RMSE 95% block CI MAE AUC
@@ -317,6 +354,7 @@ Equal -0.0008 -0.0015 0.0003 0.2169 1.0000 1.0000
 PCA -0.0000 -0.0025 0.0021 0.9677 1.0000 1.0000
 NoEVT 0.0015 -0.0016 0.0057 0.3847 1.0000 1.0000
 NoGARCH 0.0005 -0.0002 0.0012 0.1795 1.0000 1.0000
+9
 Table 6: Exploratory conditional-information regressions. V/T and P/stress are separate predictors;
 these rows are not weighted composite speciﬁcations.
 Regressors Dates RMSE 95% block CI MAE AUC Brier
@@ -324,31 +362,10 @@ ConditionalVT 1810 0.1052 [0.0600, 0.1536] 0.0594 0.5965 0.2080
 ConditionalVTP 1810 0.1068 [0.0601, 0.1568] 0.0598 0.5972 0.2085
 ConditionalVTPStress 1810 0.1068 [0.0614, 0.1558] 0.0593 0.5843 0.2084
 ConditionalVTStress 1810 0.1061 [0.0611, 0.1549] 0.0589 0.5866 0.2079
-9
-6.3 Incremental HMM contribution and weighting
-Removing P alone gives RMSE 0.10519; removing multipliers alone gives 0.10478; removing both
-gives 0.10411, compared with 0.10532 for Adaptive. The paired RMSE intervals for these three
-Adaptive contrasts include zero. This pattern is consistent with redundant/noisy contributions
-under this ﬁxed calibration, but it does not identify a unique mechanism or prove that HMM
-information is useless. The lowest composite point estimate is NoHMM, 0.10411. Full paired
-eﬀect sizes and adjusted loss-test p-values are reported rather than inferring signiﬁcance from point
-rankings. Removing P and removing regime factors are diﬀerent interventions. Improvements must
-be read with paired uncertainty, rather than assigned to an assumed mechanism based on a single
-ranking. The conditional regressions ask whether P/stress has incremental information beyond
-V/T under the same ﬁxed calibration. They do not establish structural causality or prove absence
-of information when an interval contains zero. PCAFloor explicitly tests a constraint correction
-while preserving the original unconstrained PCA baseline.
 Figure 3: Paired RMSE improvements for Adaptive relative to controlled references. Positive values
 favor Adaptive.
-6.4 EVT feasibility and sensitivity
-Five grid cells use empirical fallback for every asset/window estimate. At 95%/252 days, 95%/378
-days and all three 97.5% conﬁgurations, the available number of excesses cannot meet the ﬁxed
-minimum. These completed experiments reveal infeasible parametric speciﬁcations under the orig-
-inal rule; they are not missing experiments or evidence of successful GPD estimation. Identical
-all-fallback cells do not provide independent conﬁrmations of threshold robustness.
-Raw parameter and VaR/ES stability tables retain missing undeﬁned estimates, ﬁt failures and
-extreme ﬁnite ES. A stable normalized index can coexist with unstable raw tail estimates because
 10
+6.4 EVT feasibility and sensitivity
 Table 7: Empirical ES99 fallback frequency averaged across assets. An all-fallback cell is not a
 successful GPD robustness check.
 Speciﬁcation Fallback fraction
@@ -361,6 +378,16 @@ w378_q97.5 1.0000
 w504_q90 0.0000
 w504_q95 0.0000
 w504_q97.5 1.0000
+Five grid cells use empirical fallback for every asset/window estimate. At 95%/252 days, 95%/378
+days and all three 97.5% conﬁgurations, the available number of excesses cannot meet the ﬁxed
+minimum. These completed experiments reveal infeasible parametric speciﬁcations under the orig-
+inal rule; they are not missing experiments or evidence of successful GPD estimation. Identical
+all-fallback cells do not provide independent conﬁrmations of threshold robustness.
+Raw parameter and VaR/ES stability tables retain missing undeﬁned estimates, ﬁt failures and
+extreme ﬁnite ES. A stable normalized index can coexist with unstable raw tail estimates because
+rolling normalization and clipping compress diﬀerences. The score and forecast comparisons must
+therefore be interpreted together with the raw-tail diagnostics. The full data include one empirical
+fallback in the original 7,539 rolling ﬁts; the new grid is assessed separately.
 11
 Table 8: Matched-date EVT-grid forecast evaluation. w denotes the POT window, q its threshold
 percentile; component normalization remains 252 days.
@@ -376,9 +403,8 @@ w378_q97.5 1570 0.1128 [0.0603, 0.1658] 0.0627 0.6609 0.1808
 w504_q90 1570 0.1147 [0.0649, 0.1665] 0.0665 0.5227 0.2006
 w504_q95 1570 0.1155 [0.0659, 0.1673] 0.0675 0.5140 0.2034
 w504_q97.5 1570 0.1155 [0.0653, 0.1676] 0.0667 0.5308 0.2019
-rolling normalization and clipping compress diﬀerences. The score and forecast comparisons must
-therefore be interpreted together with the raw-tail diagnostics. The full data include one empirical
-fallback in the original 7,539 rolling ﬁts; the new grid is assessed separately.
+Figure 4: Fraction of operative tail estimates using empirical ES99 fallback.
+12
 6.5 Crisis prediction and descriptive context
 Table 9: Future 30-day crisis prediction, ﬁxed probability cutoﬀ 0.5. These are not same-day
 detection scores.
@@ -399,8 +425,6 @@ it cannot demonstrate prevention or advance prediction of that loss. Positive fu
 span long runs, so many positive daily labels do not imply many independent crisis episodes. The
 original ﬁve eligible early-warning events and conditional median crossing lead of 7.5 trading days
 remain exploratory, not newly validated population lead-time estimates.
-12
-Figure 4: Fraction of operative tail estimates using empirical ES99 fallback.
 The original descriptive wavelet, stationarity, structural-break and cointegration analyses are re-
 tained as context. Full-sample LOESS/wavelet transforms are not predictive inputs. The historical
 external FSI comparison uses revised histories and assumed release lags; its lower augmented RMSE
@@ -420,11 +444,11 @@ superiority. Any eventual production choice should be checked on a genuinely new
 chosen from the most favorable retrospective metric in the present tables.
 Tail inference is especially sensitive to feasibility. A 252-day 90th-percentile ﬁt contains only roughly
 25 excesses; moving to a higher quantile can exhaust the sample rather than improve tail speciﬁcity.
+13
 Longer windows add observations but assume greater temporal stability. The operational fallback
 is useful for keeping a signal deﬁned, yet changes the estimator’s statistical meaning. All-fallback
 robustness cells should be described as empirical-tail alternatives.
 Several remaining limitations constrain the claims. Adjusted closes and published stress series are
-13
 revised observations rather than veriﬁed historical vintages. The assets have overlapping economic
 exposures and cover neither credit nor funding markets. Crisis episodes are few. Forecast targets
 overlap and may remain dependent beyond the tested 30/60-day block choices. Bootstrap/HAC
@@ -443,13 +467,15 @@ are retained in the interpretation rather than hidden in supplementary material.
 This revision reproduces the original A-CMSI experiment and executes the previously untested
 state-count, controlled-ablation, weighting and EVT-grid alternatives. All comparisons preserve
 chronological model ﬁtting, mature-label calibration and ﬁxed hyperparameters. The contribution
-is a transparent and reproducible stress-measurement framework with an explicit robustness au-
-dit, not proof of uniformly superior adaptive forecasting. HMM6 has the smaller point-estimate
-volatility RMSE. The ﬁve-versus-six comparison does not establish a family-adjusted volatility ad-
-vantage; the RMSE diﬀerence remains uncertain. This is not proof of equivalence. Training BIC
-alone does not establish out-of-sample overﬁtting. Further work should use a new evaluation period,
-broader non-overlapping exposures, veriﬁed point-in-time observations and independently speciﬁed
-tail/state diagnostics before operational or strong systemic-risk claims are made.
+is a transparent and reproducible stress-measurement framework with an explicit robustness audit,
+not proof of uniformly superior adaptive forecasting. Adaptive weighting has no demonstrated
+predictive advantage over simpler weighting baselines in this sample; failure to reject equal loss is not
+equivalence. HMM6 has the smaller point-estimate volatility RMSE. The ﬁve-versus-six comparison
+does not establish a family-adjusted volatility advantage; the RMSE diﬀerence remains uncertain.
+This is not proof of equivalence. Training BIC alone does not establish out-of-sample overﬁtting.
+Further work should use a new evaluation period, broader non-overlapping exposures, veriﬁed point-
+in-time observations and independently speciﬁed tail/state diagnostics before operational or strong
+systemic-risk claims are made.
 Version identity and availability
 This is a robustness revision of the same research archived under 10.5281/zenodo.23682477; it does
 not claim a new Zenodo version DOI or arXiv identiﬁer. The exact newer candidate PDF/source
@@ -460,10 +486,10 @@ audit tables, not from unveriﬁed claims in those reference drafts. Code is ava
 //github.com/ayushanand1103/A-CMSI-research; audit commands, locks, data hashes, conﬁgu-
 ration and reports are packaged separately from original outputs. Third-party input data remain
 subject to their original terms. No upload or submission has been performed.
+14
 Declarations
 The reference preprint reports independent, sole-authored research without external funding and
 without competing interests; these declarations are carried forward for author conﬁrmation. Aﬃl-
-14
 iation is descriptive and does not imply institutional sponsorship. Generative-AI assistance was
 used for code, research checking, experiment implementation, manuscript drafting and formatting.
 The human author is responsible for verifying results, references, disclosures, licensing and ﬁnal
@@ -486,22 +512,27 @@ S0169-2070(96)00719-4.
 Dániel Holló, Manfred Kremer, and Marco Lo Duca. CISS: A composite indicator of systemic
 stress in the ﬁnancial system. Technical Report 1426, European Central Bank, 2012. URL
 https://www.ecb.europa.eu/pub/pdf/scpwps/ecbwp1426.pdf.
+Sture Holm. A simple sequentially rejective multiple test procedure. Scandinavian Journal of
+Statistics, 6(2):65–70, 1979. URL https://www.jstor.org/stable/4615733.
 Søren Johansen. Statistical analysis of cointegration vectors. Journal of Economic Dynamics and
 Control, 12(2–3):231–254, 1988. doi: 10.1016/0165-1889(88)90041-3.
+Hans R. Künsch. The jackknife and the bootstrap for general stationary observations. The Annals
+of Statistics , 17(3):1217–1241, 1989. doi: 10.1214/aos/1176347265.
 Alexander J. McNeil and Rüdiger Frey. Estimation of tail-related risk measures for heteroscedastic
 ﬁnancial time series: An extreme value approach. Journal of Empirical Finance , 7(3–4):271–300,
 2000. doi: 10.1016/S0927-5398(00)00012-8.
 Daniel B. Nelson. Conditional heteroskedasticity in asset returns: A new approach. Econometrica,
 59(2):347–370, 1991. doi: 10.2307/2938260.
-James III Pickands. Statistical inference using extreme order statistics. The Annals of Statistics , 3
-(1):119–131, 1975. URL https://www.jstor.org/stable/2958083.
+15
+James Pickands, III. Statistical inference using extreme order statistics. The Annals of Statis-
+tics, 3(1):119–131, 1975. doi: 10.1214/aos/1176343003. URL https://www.jstor.org/stable/
+2958083.
 Khaled Salhi, Madalina Deaconu, Antoine Lejay, Nicolas Champagnat, and Nicolas Navet. Regime
 switching model for ﬁnancial data: Empirical risk analysis. Physica A , 461:148–157, 2016.
 doi: 10.1016/j.physa.2016.05.002. URL https://orbilu.uni.lu/bitstream/10993/21249/1/
 Physica-A-2016.pdf.
 Claude E. Shannon. A mathematical theory of communication. Bell System Technical Journal , 27
 (3):379–423, 1948. doi: 10.1002/j.1538-7305.1948.tb01338.x.
-15
 Christopher Torrence and Gilbert P. Compo. A practical guide to wavelet analysis. Bulletin of
 the American Meteorological Society, 79(1):61–78, 1998. doi: 10.1175/1520-0477(1998)079<0061:
 APGTW A>2.0.CO;2.

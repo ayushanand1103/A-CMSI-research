@@ -20,7 +20,8 @@ def package(root):
     checks=dict(pdf_newer_than_source=pdf.stat().st_mtime>=tex.stat().st_mtime,
                 valid_nonempty_pdf=len(reader.pages)>0,
                 doi_preserved="10.5281/zenodo.23682477" in extracted,
-                fourteen_original_references=bbl.count("\\bibitem")==14,
+                fourteen_original_references=all(re.search(r"\\bibitem(?:\[[\s\S]*?\])?\{"+key+r"\}",bbl) for key in
+                    ("ciss","fimsis","engle","bollerslev","nelson","hamilton","pickands","mcneil","salhi","shannon","johansen","torrence","dm","hln")),
                 no_unresolved_placeholders="@@" not in tex.read_text(encoding="utf-8"),
                 no_undefined_citations="undefined citations" not in log.lower() and "citation" not in "\n".join(x for x in log.lower().splitlines() if "undefined" in x),
                 no_undefined_references="undefined references" not in log.lower(),
