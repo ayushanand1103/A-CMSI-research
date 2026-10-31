@@ -1,5 +1,5 @@
 {
-  "built_utc": "2026-10-31T10:16:30.916318+00:00",
+  "built_utc": "2026-10-31T10:30:07.356560+00:00",
   "compiler": "Tectonic 0.17.0 (XeTeX/BibTeX)",
   "pages": 16,
   "bibliographic_entries": 16,
@@ -18,8 +18,8 @@
   },
   "all_checks_pass": true,
   "source_zip": "outputs\\robustness\\ACMSI_arXiv_Robustness_Source.zip",
-  "pdf_sha256": "2dd35165de9fb494334d3f8b4e5435c86e31686d770206c786bfd3069087d775",
-  "source_zip_sha256": "ee638299f446e4daed8623ff7a2a2a7d01cae1e17d0b5465e2ba9a5e144a405e",
+  "pdf_sha256": "a883fefdc7437d2119465419edefa5842cbdb28801c316c4ccb3bc7425e80566",
+  "source_zip_sha256": "3e6575b8f148a33d31c9163f910318b811c9b8757e09c23366364053b35c48fc",
   "source_files": {
     "ablation_table.tex": "c871f681bd44fd883e58b572796588d96cc9cd87f89f3522cc3ea467b0905a53",
     "conditional_table.tex": "ef99ea72c16f2fb906ffa2073be684ea2229ebea3fc3f34a21e3409a593a95d7",
@@ -29,7 +29,7 @@
     "fallback_table.tex": "2d66f67164d4db87905f2439ca12e0f6cdf528c7947b96b93517e10a3036af2c",
     "hmm_table.tex": "2bc7423ae795282388a428592953eb981de0e6911d596b4441a0fbb7152fe499",
     "main.bbl": "ae6bb024aec754f2f2af7a87519fec3bef6fd811b833ac6e6e0f3371f00275f2",
-    "main.tex": "ea4dfa702050e5289d64015a5a6e6a818cc61d3d5f56283eac7bf5d38e436c9c",
+    "main.tex": "5d76c3d7c94bafbc4739fcb7e3c3d8b9cdbfb805fa53a6ca1be957f14dd6db42",
     "original_table.tex": "f98b8463f17aab0631708bb0e6f2a8b8e2cf0708d4f8ae9e966b78a9ee5dc337",
     "paired_table.tex": "421696eac89583bf93803250290a7339a9af11af30a54402d01926e6d383823f",
     "README.md": "fcb348a172ac5fd24ecf3d569334404a1cdafb14796b2bcf9d461c7b7ab09d6a",
@@ -39,5 +39,5 @@
     "figures/hmm_rmse.png": "f384f9f9891524878497562f8364c69afc888ee606c57dbc769730fae2387a01",
     "figures/hmm_stability.png": "ef4fba62db772b6f0d921651924f39b6f08b7742b73d754619fe11d63bd3e2e3"
   },
-  "submission": "Not uploaded; author review/category/endorsement/licensing remain external"
+  "submission": "Not uploaded; current author/license confirmation and account status are recorded in arxiv_submission/submission_metadata.json"
 }

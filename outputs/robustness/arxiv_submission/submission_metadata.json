@@ -1,0 +1,21 @@
+{
+  "title": "Does Adaptive Weighting Improve Equity Market Stress Measurement? Chronological Robustness Evidence from a GARCH-HMM-EVT Composite Index",
+  "authors": [
+    "Ayush Anand"
+  ],
+  "affiliation": "Independent researcher",
+  "corresponding_email": "ayushanand.1103@gmail.com",
+  "proposed_primary_category": "q-fin.RM",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "author_declarations": "explicitly_confirmed_by_author_2026-10-31",
+  "abstract": "This paper investigates whether conditional volatility, filtered market-regime probabilities and extreme-loss severity benefit from regime-conditioned entropy weighting in a composite equity-market stress indicator. The Adaptive Composite Market Stress Index (A-CMSI) combines ARIMA-conditional-variance models, forward-filtered Gaussian hidden Markov probabilities and rolling peaks-over-threshold expected shortfall for AAPL, MSFT and SPY. Fresh estimation reproduces the previously reported five-state results on 2,765 adjusted-price observations from 2015-2025 and 1,810 scored 30-day forecasts: Adaptive RMSE is 0.10532, compared with 0.10457 for Equal and 0.10411 for NoHMM. This revision executes complete three-, four-, five- and six-state paths, independently removes panic probability and regime multipliers, evaluates direct and deficit entropy weights, and tests nine EVT window/threshold configurations. The controlled Adaptive specification has RMSE 0.10532 on 1810 matched dates; the lowest point-estimate RMSE among the displayed composite/baseline variants is obtained by NoHMM. Five EVT configurations cannot meet the fixed minimum-exceedance rule and become entirely empirical fallback estimates. The study separates after-close detection from future-event prediction, reports dependence-aware uncertainty and multiplicity-adjusted loss comparisons, and retains unfavorable baselines. Adaptive weighting has no demonstrated predictive advantage over simpler weighting baselines in this sample. The evidence supports a transparent research framework, not a deployment-ready systemic-risk indicator.",
+  "comments": "Robustness revision of research previously archived at Zenodo, doi:10.5281/zenodo.23682477.",
+  "prior_research_doi": "10.5281/zenodo.23682477",
+  "journal_reference": null,
+  "published_article_doi": null,
+  "arxiv_identifier": null,
+  "submission_status": "not_submitted_no_authenticated_submission_connection",
+  "source_zip": "../ACMSI_arXiv_Robustness_Source.zip",
+  "models_frozen": true
+}

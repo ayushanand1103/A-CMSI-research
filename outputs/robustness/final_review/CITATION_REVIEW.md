@@ -34,3 +34,8 @@ The following match the locally archived `ACMSI_Zenodo_Preprint_v2.pdf` exactly 
 - Original research identity: **10.5281/zenodo.23682477**, with this document described as a revised candidate rather than an already registered arXiv/Zenodo version.
 
 Current enrollment/affiliation, email deliverability, funding and competing-interest declarations cannot be independently certified from repository documents. The manuscript explicitly carries declarations forward for author confirmation. No ORCID, grant, coauthor, endorsement or new submission identifier was invented. AI assistance remains disclosed and no AI system is listed as an author.
+
+
+## Author-confirmed submission update — 31 October 2026
+
+The author requested removal of the CHRIST affiliation; the submission copy now identifies Ayush Anand as an independent researcher. The author explicitly confirmed sole authorship, no external funding, no competing interests and the AI disclosure, and chose CC BY 4.0. The internal candidate-file/drafting note was removed from the paper and retained only in the audit history. The PDF and source ZIP were rebuilt and verified. Models and results were not optimized or refitted. No arXiv upload occurred because no authenticated submission connection was available. See arxiv_submission/author_confirmation.json and arxiv_submission/SUBMIT_TO_ARXIV.md.

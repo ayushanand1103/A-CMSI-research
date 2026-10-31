@@ -47,7 +47,7 @@ def package(root):
                 pdf_sha256=hashlib.sha256(pdf.read_bytes()).hexdigest(),
                 source_zip_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),
                 source_files={p.relative_to(source).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in files},
-                submission="Not uploaded; author review/category/endorsement/licensing remain external")
+                submission="Not uploaded; current author/license confirmation and account status are recorded in arxiv_submission/submission_metadata.json")
     (source/"BUILD_STATUS.json").write_text(json.dumps(status,indent=2),encoding="utf-8")
     (source/"pdf_extracted_text.txt").write_text(extracted,encoding="utf-8")
     print(json.dumps(dict(pages=status["pages"],all_checks_pass=status["all_checks_pass"],checks=checks),indent=2))

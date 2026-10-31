@@ -58,3 +58,8 @@ Author name, correspondence and affiliation match the local reference preprint. 
 ## Build and verification
 
 Reproducible check: `.venv-reproduction/Scripts/python -m research_audit.final_review` from the repository root. Machine-readable status is in `review_checks.json`. The updated compiled PDF and source ZIP are validated separately in `../manuscript/BUILD_STATUS.json`; the pre-review versions are retained in `before_review/`. Author sign-off remains a separate step from these scientific and technical checks.
+
+
+## Author-confirmed submission update — 31 October 2026
+
+The author requested removal of the CHRIST affiliation; the submission copy now identifies Ayush Anand as an independent researcher. The author explicitly confirmed sole authorship, no external funding, no competing interests and the AI disclosure, and chose CC BY 4.0. The internal candidate-file/drafting note was removed from the paper and retained only in the audit history. The PDF and source ZIP were rebuilt and verified. Models and results were not optimized or refitted. No arXiv upload occurred because no authenticated submission connection was available. See arxiv_submission/author_confirmation.json and arxiv_submission/SUBMIT_TO_ARXIV.md.

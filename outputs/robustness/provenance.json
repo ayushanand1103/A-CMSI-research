@@ -83,7 +83,7 @@
     "ACMSI_Submission_Readiness_Audit.md": "unavailable_in_checked_locations"
   },
   "environment": "Dedicated venv with recorded existing project dependencies; lock supports clean installation",
-  "completed_utc": "2026-10-31T10:15:13.204190+00:00",
+  "completed_utc": "2026-10-31T10:26:45.723282+00:00",
   "final_source_sha256": {
     "acmsi\\analysis.py": "3344d508fb76cd658caff5fc70ad1608118367ceeb9f7671b5f8f72b14542973",
     "acmsi\\core.py": "4281f213980ff798318e6fea7e8c4003ba2c937c25eaabd99ed9c20d73e23230",
@@ -102,8 +102,9 @@
     "research_audit\\hmm.py": "60592c2a84982ef3fd26fcc7aa552260b98be35513057e63e00c8a850df11af7",
     "research_audit\\indices.py": "17c58f22f20cf40c53010525e52ff84edce6d6bda11942a73434bd6c4d3d2881",
     "research_audit\\install_tex.py": "507b9c9854b5891cca82e5470f42d5c6837a9aeaa156500463e35344c472e84d",
-    "research_audit\\manuscript.py": "ac8daa51cd6ac40cb8e4056fe090b2085c7b316b86d6046404c51cf031d47de9",
-    "research_audit\\package.py": "b3390141b6a29ed2a0735b7c915ee59dd5325ffb766408a78b485996d4e5da75",
+    "research_audit\\manuscript.py": "649bfad7179f0421642da4d07841023f2522e3bdb15dbd8a95ad7ff0a700169d",
+    "research_audit\\package.py": "4b2c79bb7fcc1193ded7a102dd2bd22f8021c3946c617f0a224ec762301ef8e0",
+    "research_audit\\prepare_submission.py": "0ca1c80d9ab6152b583291ed9e28fdfc7af23c371399da332eb022c645e492fb",
     "research_audit\\provenance.py": "a9356010f0132f13f261890eaa760a605c3bc34d6865f3507011a5c1465a9407",
     "research_audit\\reports.py": "9305bf0e6432c3e318e3ac1d1238333999c1f3a83ba4ed8180f26a7c0baeacaa",
     "research_audit\\runner.py": "223976b74699923fcb4054d1cc0552aeb308d13d768ceed7a2bb31d5113a287e",
@@ -131,5 +132,22 @@
     "calibration_reproduced": true,
     "max_forecast_difference": 0.0,
     "no_project_deps_directory": true
-  }
+  },
+  "arxiv_author_confirmation": {
+    "confirmation_date": "2026-10-31",
+    "author": "Ayush Anand",
+    "sole_author": true,
+    "external_funding": "none",
+    "competing_interests": "none",
+    "ai_assistance_disclosure_confirmed": true,
+    "institutional_affiliation": null,
+    "display_affiliation": "Independent researcher",
+    "affiliation_instruction": "Author requested removal of the CHRIST name",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "confirmation_source": "Explicit author replies in this conversation",
+    "submission_requested": true,
+    "arxiv_submission_completed": false
+  },
+  "submission_status": "not_submitted_no_authenticated_submission_connection"
 }

@@ -3,11 +3,10 @@ Measurement?
 Chronological Robustness Evidence from a GARCH–HMM–EVT
 Composite Index
 Ayush Anand
-Undergraduate Student, CHRIST (Deemed to be University),
-Delhi NCR Campus, India
+Independent researcher
 ayushanand.1103@gmail.com
 31 October 2026
-Revised preprint candidate; robustness revision of the research archived at
+Robustness revision of the research archived at
 doi:10.5281/zenodo.23682477
 Abstract
 This paper investigates whether conditional volatility, ﬁltered market-regime probabilities
@@ -34,8 +33,8 @@ JEL: C58, G01, C53, G17.
 1 Introduction
 Financial stress is multidimensional. Conditional dispersion, persistent market regimes and the
 severity of extreme losses need not convey identical information. A composite index can summarize
-1
 these signals, but a plausible economic narrative is not evidence of improved forecasting. More
+1
 elaborate aggregation can add estimation noise, obscure redundant components, or concentrate
 weight on signals unrelated to the chosen loss. A stress index should therefore be evaluated against
 simple alternatives without a presumption that adaptive construction must win.
@@ -74,9 +73,9 @@ et al. [1997] and additional block resampling.
 The canonical local input contains 2,765 complete adjusted-price rows from 2 January 2015 through
 30 December 2025. For asset a, daily log return is
 ra,t = log Πa,t − log Πa,t−1, (1)
-2
 where Π denotes adjusted price, distinct from the panic component Pt. This yields 2,764 return
 dates. Prices are checked for missing and nonpositive values, sorted unique dates and alignment.
+2
 The saved VIX observations start on 4 January 2016; earlier missing VIX values are not backﬁlled
 using future data. Legacy saved returns diﬀer very slightly from recomputation, so the operational
 pipeline always derives returns from the canonical dated price ﬁle.
@@ -476,24 +475,22 @@ This is not proof of equivalence. Training BIC alone does not establish out-of-s
 Further work should use a new evaluation period, broader non-overlapping exposures, veriﬁed point-
 in-time observations and independently speciﬁed tail/state diagnostics before operational or strong
 systemic-risk claims are made.
-Version identity and availability
-This is a robustness revision of the same research archived under 10.5281/zenodo.23682477; it does
-not claim a new Zenodo version DOI or arXiv identiﬁer. The exact newer candidate PDF/source
-ZIP/readiness audit named by the author were unavailable in the checked locations. The repos-
-itory draft and a local 27 October 2026 Zenodo v2 PDF supplied reference context, including
-its 14 bibliographic entries. All numerical additions in this revision derive from the executed
-audit tables, not from unveriﬁed claims in those reference drafts. Code is available at https:
-//github.com/ayushanand1103/A-CMSI-research; audit commands, locks, data hashes, conﬁgu-
-ration and reports are packaged separately from original outputs. Third-party input data remain
-subject to their original terms. No upload or submission has been performed.
+Data and code availability
+This paper revises the research archived under 10.5281/zenodo.23682477. The revised numerical
+results derive from the executed robustness experiments. Code is available at https://github.
+com/ayushanand1103/A-CMSI-research; audit commands, locks, data hashes, conﬁguration and
+reports are packaged separately from original outputs. Third-party input data remain subject to
+their original terms.
 14
 Declarations
-The reference preprint reports independent, sole-authored research without external funding and
-without competing interests; these declarations are carried forward for author conﬁrmation. Aﬃl-
-iation is descriptive and does not imply institutional sponsorship. Generative-AI assistance was
-used for code, research checking, experiment implementation, manuscript drafting and formatting.
-The human author is responsible for verifying results, references, disclosures, licensing and ﬁnal
-submission decisions. No AI system is listed as an author.
+Ayush Anand is the sole author. This research was conducted independently and received no ex-
+ternal funding. The author declares no competing interests. Generative-AI assistance was used for
+code, research checking, experiment implementation, manuscript drafting and formatting. The hu-
+man author is responsible for verifying results, references, disclosures, licensing and ﬁnal submission
+decisions. No AI system is listed as an author.
+License
+This work is licensed under the Creative Commons Attribution 4.0 International license (CC BY
+4.0).
 References
 Tim Bollerslev. Generalized autoregressive conditional heteroskedasticity. Journal of Econometrics ,
 31(3):307–327, 1986. doi: 10.1016/0304-4076(86)90063-1.
@@ -518,12 +515,12 @@ Søren Johansen. Statistical analysis of cointegration vectors. Journal of Econo
 Control, 12(2–3):231–254, 1988. doi: 10.1016/0165-1889(88)90041-3.
 Hans R. Künsch. The jackknife and the bootstrap for general stationary observations. The Annals
 of Statistics , 17(3):1217–1241, 1989. doi: 10.1214/aos/1176347265.
+15
 Alexander J. McNeil and Rüdiger Frey. Estimation of tail-related risk measures for heteroscedastic
 ﬁnancial time series: An extreme value approach. Journal of Empirical Finance , 7(3–4):271–300,
 2000. doi: 10.1016/S0927-5398(00)00012-8.
 Daniel B. Nelson. Conditional heteroskedasticity in asset returns: A new approach. Econometrica,
 59(2):347–370, 1991. doi: 10.2307/2938260.
-15
 James Pickands, III. Statistical inference using extreme order statistics. The Annals of Statis-
 tics, 3(1):119–131, 1975. doi: 10.1214/aos/1176343003. URL https://www.jstor.org/stable/
 2958083.
